@@ -308,6 +308,31 @@ from os import getenv
 #+begin_src python
 mod = "mod4"
 terminal = getenv("TERMINAL") or guess_terminal()
+filemanager = getenv("FILE") or "thunar"
+browser = getenv("BROWSER") or "firefox"
+mail_app = getenv("MAIL_APP") or "thunderbird"
+guiemacs = "emacsclient -c -a emacs"
+tuiemacs = "emacsclient -t -a emacs"
+editor  = getenv("EDITOR") or tuiemacs
+ncmpcpp = f"""{terminal} --class ncmpcpp -e ncmpcpp""" if terminal == 'alacritty' else f"""{terminal} -e ncmpcpp"""
+htop = f"""{terminal} --class htop -e htop""" if terminal == 'alacritty' else f"""{terminal} -e htop"""
+nmtui = f"""{terminal} --class nmtui -e nmtui""" if terminal == 'alacritty' else f"""{terminal} -e nmtui"""
+khal = f"""{terminal} --class khal -e khal interactive""" if terminal == 'alacritty' else f"""{terminal} -e khal interactive"""
+vim = f"""{terminal} --class vim -e vim""" if terminal == 'alacritty' else f"""{terminal} -e vim"""
+nw_emacs = f"""{terminal} --class nw-emacs -e {tuiemacs}""" if terminal == 'alacritty' else f"""{terminal} -e {tuiemacs}"""
+
+logout = "rofi-logout qtile-logout"
+menu = "rofi -show drun -theme qtile-menu"
+clipboard = """rofi -theme qtile-clipboard -modi "clipboard:greenclip print" -show clipboard"""
+backlight_up = "dunst-backlight +1%"
+backlight_down = "dunst-backlight 1%-"
+volume_up = "dunst-volume -i 1"
+volume_down = "dunst-volume -d 1"
+volume_mute = "dunst-volume -t"
+audio_play = "playerctl play-pause"
+audio_next = "playerctl next"
+audio_prev = "playerctl previous"
+printscreen = "flameshot gui"
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
 follow_mouse_focus = True
@@ -317,7 +342,7 @@ cursor_warp = False
 floating_layout = layout.Floating(
     float_rules=[
         # Run the utility of `xprop` to see the wm class and name of an X client.
-        *layout.Floating.default_float_rules,
+        ,*layout.Floating.default_float_rules,
         Match(wm_class="confirmreset"),  # gitk
         Match(wm_class="makebranch"),  # gitk
         Match(wm_class="maketag"),  # gitk
@@ -362,7 +387,7 @@ keys = [
     # Moving out of range in Columns layout will create new column.
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
-    Key([mod, "shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key([mod,"shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
@@ -384,6 +409,10 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod, "mod1"], "Tab", lazy.next_layout(), desc="Toggle between layouts" ),
     Key([mod], "Tab", lazy.screen.toggle_group(), desc="Toggle between groups"),
+    Key([mod], "e", lazy.spawn(filemanager), desc="Launch file manager"),
+    Key([mod], "q", lazy.spawn(logout), desc="logout"),
+    Key([mod],"c", lazy.spawn(clipboard), desc="clipboard"),
+    Key([mod],"d", lazy.spawn(menu), desc="menu"),
     Key([mod], "F4", lazy.window.kill(), desc="Kill focused window"),
     Key(["mod1"], "F4", lazy.window.kill(), desc="Kill focused window"),
     Key(
@@ -394,8 +423,20 @@ keys = [
     ),
     Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    #Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+
+    # fn keys
+    Key([], "XF86MonBrightnessUp", lazy.spawn(backlight_up), desc="brightness up +1%"),
+    Key([], "XF86MonBrightnessDown", lazy.spawn(backlight_down), desc="brightness down +1%"),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn(volume_up), desc="volume up +1%"),
+    Key([], "XF86AudioLowerVolume", lazy.spawn(volume_down), desc="volume down +1%"),
+    Key([], "XF86AudioMute", lazy.spawn(volume_mute), desc="volume mute"),
+    Key([], "Print", lazy.spawn(printscreen), desc="print screen"),
+    Key([], "XF86MyComputer", lazy.spawn(browser), desc="browser"),
+    Key([], "XF86Mail", lazy.spawn(mail_app), desc="mail app"),
+    Key([], "XF86AudioNext", lazy.spawn(audio_next), desc="next audio"),
+    Key([], "XF86AudioPrev", lazy.spawn(audio_prev), desc="previous audio"),
 ]
 
 # Add key bindings to switch VTs in Wayland.
