@@ -302,11 +302,12 @@ from libqtile import bar, layout, qtile, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+from os import getenv
 #+end_src
 *** variables
 #+begin_src python
 mod = "mod4"
-terminal = guess_terminal()
+terminal = getenv("TERMINAL") or guess_terminal()
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
 follow_mouse_focus = True
