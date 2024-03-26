@@ -298,15 +298,16 @@ mouse = [
 #+end_src
 *** imports
 #+begin_src python
-from libqtile import bar, layout, qtile, widget
+from libqtile import bar, layout, qtile, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from os import getenv
+from os import getenv, system
 #+end_src
 *** variables
 #+begin_src python
 mod = "mod4"
+
 terminal = getenv("TERMINAL") or guess_terminal()
 filemanager = getenv("FILE") or "thunar"
 browser = getenv("BROWSER") or "firefox"
@@ -553,6 +554,20 @@ mouse = [
 ]
 
 #+end_src
+*** startups
+#+begin_src python
+STARTUP_COMMANDS = [
+    "nm-applet --indicator &",
+    "gnome-keyring-daemon --components=pkcs11,secrets,ssh -r -d &",
+]
+
+@hook.subscribe.startup_once
+def autostart():
+    """Stuffs to autostarts."""
+    for cmd in STARTUP_COMMANDS:
+        system(cmd)
+
+#+end_src
 ** Utilities
 :PROPERTIES:
 :header-args: :tangle .config/qtile/util.py :mkdirp t
@@ -581,4 +596,98 @@ mouse = [
 #+end_src
 *** imports
 #+begin_src python
+#+end_src
+** External utilities
+*** rofi
+**** menu
+:PROPERTIES:
+:header-args: :tangle .config/rofi/themes/qtile-menu.rasi :mkdirp t
+:END:
+#+begin_src css
+/* -*- mode: css -*- */
+@theme "nord"
+
+window {
+    location: southwest;
+    anchor: center;
+    width: 40%;
+    x-offset: 375;
+    y-offset: -135;
+    padding-right: 25px;
+}
+
+listview {
+    columns: 2;
+    lines: 6;
+}
+
+/* inputbar { */
+/*     children: [textbox-prompt]; */
+/* } */
+
+/* textbox-prompt { */
+/*     str: "Apps"; */
+/*     text-color: inherit; */
+/* } */
+#+end_src
+**** logout
+:PROPERTIES:
+:header-args: :tangle .config/rofi/themes/qtile-logout.rasi :mkdirp t
+:END:
+
+#+begin_src css
+/* -*-css -*- */
+@theme "nord"
+
+window {
+    location: northeast;
+    anchor:   center;
+    transparency: "screenshot";
+    width: 10%;
+    padding: 10px;
+    border:  0px;
+    border-radius: 6px;
+    spacing: 0;
+    children: [mainbox];
+    x-offset: -100;
+    y-offset: 90;
+}
+
+listview {
+    columns: 1;
+    lines: 4;
+}
+#+end_src
+**** clipboard
+:PROPERTIES:
+:header-args: :tangle .config/rofi/themes/qtile-clipboard.rasi :mkdirp t
+:END:
+
+#+begin_src css
+
+/* -*- mode: css -*- */
+@theme "nord"
+
+window {
+    location: southeast;
+    anchor: center;
+    width: 40%;
+    x-offset: -390;
+    y-offset: -135;
+    padding-right: 25px;
+}
+
+listview {
+    columns: 2;
+    lines: 6;
+}
+
+/* inputbar { */
+/*     children: [textbox-prompt]; */
+/* } */
+
+/* textbox-prompt { */
+/*     str: "Apps"; */
+/*     text-color: inherit; */
+/* } */
 #+end_src
