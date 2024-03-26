@@ -384,7 +384,8 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod, "mod1"], "Tab", lazy.next_layout(), desc="Toggle between layouts" ),
     Key([mod], "Tab", lazy.screen.toggle_group(), desc="Toggle between groups"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "F4", lazy.window.kill(), desc="Kill focused window"),
+    Key(["mod1"], "F4", lazy.window.kill(), desc="Kill focused window"),
     Key(
         [mod],
         "f",
@@ -510,4 +511,33 @@ mouse = [
     Click([mod], "Button2", lazy.window.bring_to_front()),
 ]
 
+#+end_src
+** Utilities
+:PROPERTIES:
+:header-args: :tangle .config/qtile/util.py :mkdirp t
+:END:
+
+*** header :noexport:
+#+begin_src python
+# Copyright (c) 2024 alexforsale
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#+end_src
+*** imports
+#+begin_src python
 #+end_src
