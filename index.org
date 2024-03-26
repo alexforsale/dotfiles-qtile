@@ -18,7 +18,7 @@
 This is the configuration file for /qtile/ window manager.
 ** Default Configuration file
 :PROPERTIES:
-:header-args: :tangle .config/qtile/config.py :mkdirp t :shebang #!/usr/bin/env python3
+:header-args: :tangle .config/qtile/config.py :mkdirp t
 :END:
 
 This is the default configuration that comes from the package in /archlinux/:
