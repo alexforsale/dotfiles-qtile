@@ -1,4 +1,4 @@
-#+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t {}:headline author:t
+#+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:{} {}:headline author:t
 #+options: broken-links:nil c:nil creator:nil d:(not "LOGBOOK") date:t e:t
 #+options: email:nil f:t inline:t num:nil p:nil pri:nil prop:nil stat:t tags:t
 #+options: tasks:t tex:t timestamp:t title:t toc:t todo:t |:t
@@ -314,17 +314,20 @@ browser = getenv("BROWSER") or "firefox"
 mail_app = getenv("MAIL_APP") or "thunderbird"
 guiemacs = "emacsclient -c -a emacs"
 tuiemacs = "emacsclient -t -a emacs"
-editor  = getenv("EDITOR") or tuiemacs
+visual  = getenv("VISUAL") or guiemacs
 ncmpcpp = f"""{terminal} --class ncmpcpp -e ncmpcpp""" if terminal == 'alacritty' else f"""{terminal} -e ncmpcpp"""
 htop = f"""{terminal} --class htop -e htop""" if terminal == 'alacritty' else f"""{terminal} -e htop"""
 nmtui = f"""{terminal} --class nmtui -e nmtui""" if terminal == 'alacritty' else f"""{terminal} -e nmtui"""
 khal = f"""{terminal} --class khal -e khal interactive""" if terminal == 'alacritty' else f"""{terminal} -e khal interactive"""
 vim = f"""{terminal} --class vim -e vim""" if terminal == 'alacritty' else f"""{terminal} -e vim"""
 nw_emacs = f"""{terminal} --class nw-emacs -e {tuiemacs}""" if terminal == 'alacritty' else f"""{terminal} -e {tuiemacs}"""
+dired = f"""{terminal} -e {tuiemacs} -e '(dired (getenv \"HOME\"))'"""
+tesseract_command = "maim -u -s -b 5 -l -c 0.3,0.4,0.6,0.4 -d 0.1 | xclip -selection clipboard -t image/png && notify-send -i camera-photo 'Screenshot' 'Saved to clipboard'"
 
 logout = "rofi-logout qtile-logout"
 menu = "rofi -show drun -theme qtile-menu"
 clipboard = """rofi -theme qtile-clipboard -modi "clipboard:greenclip print" -show clipboard"""
+emoji = "rofi -show emoji -theme qtile-emoji"
 backlight_up = "dunst-backlight +1%"
 backlight_down = "dunst-backlight 1%-"
 volume_up = "dunst-volume -i 1"
@@ -375,59 +378,73 @@ wmname = "LG3D"
 #+end_src
 *** keybindings
 #+begin_src python
-keys = [
-    # A list of available commands that can be bound to keys can be found
-    # at https://docs.qtile.org/en/latest/manual/config/lazy.html
-    # Switch between windows
+keys = []
+#+end_src
+**** focus movements
+#+begin_src python
+focus_keys = [
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
     Key([mod], "k", lazy.layout.up(), desc="Move focus up"),
-    Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
-    # Move windows between left/right columns or move up/down in current stack.
-    # Moving out of range in Columns layout will create new column.
+    #Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),
+    Key([mod], "Left", lazy.layout.left(), desc="Move focus to left"),
+    Key([mod], "Right", lazy.layout.right(), desc="Move focus to right"),
+    Key([mod], "Down", lazy.layout.down(), desc="Move focus down"),
+    Key([mod], "Up", lazy.layout.up(), desc="Move focus up"),
+]
+
+keys.extend(focus_keys)
+#+end_src
+**** window movements
+#+begin_src python
+movement_keys = [
     Key([mod, "shift"], "h", lazy.layout.shuffle_left(), desc="Move window to the left"),
     Key([mod, "shift"], "l", lazy.layout.shuffle_right(), desc="Move window to the right"),
     Key([mod,"shift"], "j", lazy.layout.shuffle_down(), desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
-    # Grow windows. If current window is on the edge of screen and direction
-    # will be to screen edge - window would shrink.
+
+    Key([mod, "shift"], "Left", lazy.layout.shuffle_left(), desc="Move window to the left"),
+    Key([mod, "shift"], "Right", lazy.layout.shuffle_right(), desc="Move window to the right"),
+    Key([mod,"shift"], "Down", lazy.layout.shuffle_down(), desc="Move window down"),
+    Key([mod, "shift"], "Up", lazy.layout.shuffle_up(), desc="Move window up"),
+]
+
+keys.extend(movement_keys)
+#+end_src
+**** resize
+#+begin_src python
+resize_keys = [
     Key([mod, "control"], "h", lazy.layout.grow_left(), desc="Grow window to the left"),
     Key([mod, "control"], "l", lazy.layout.grow_right(), desc="Grow window to the right"),
     Key([mod, "control"], "j", lazy.layout.grow_down(), desc="Grow window down"),
     Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
+
+    Key([mod, "control"], "Left", lazy.layout.grow_left(), desc="Grow window to the left"),
+    Key([mod, "control"], "Right", lazy.layout.grow_right(), desc="Grow window to the right"),
+    Key([mod, "control"], "Down", lazy.layout.grow_down(), desc="Grow window down"),
+    Key([mod, "control"], "Up", lazy.layout.grow_up(), desc="Grow window up"),
+]
+
+keys.extend(resize_keys)
+#+end_src
+**** layout keys
+#+begin_src python
+layout_keys = [
     Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
     Key(
         [mod, "shift"],
         "Return",
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
-    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod, "mod1"], "Tab", lazy.next_layout(), desc="Toggle between layouts" ),
-    Key([mod], "Tab", lazy.screen.toggle_group(), desc="Toggle between groups"),
-    Key([mod], "e", lazy.spawn(filemanager), desc="Launch file manager"),
-    Key([mod], "q", lazy.spawn(logout), desc="logout"),
-    Key([mod],"c", lazy.spawn(clipboard), desc="clipboard"),
-    Key([mod],"d", lazy.spawn(menu), desc="menu"),
-    Key([mod], "F4", lazy.window.kill(), desc="Kill focused window"),
-    Key(["mod1"], "F4", lazy.window.kill(), desc="Kill focused window"),
-    Key(
-        [mod],
-        "f",
-        lazy.window.toggle_fullscreen(),
-        desc="Toggle fullscreen on the focused window",
-    ),
-    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
-    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
-    #Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+]
 
-    # fn keys
+keys.extend(layout_keys)
+#+end_src
+**** multimedia_key
+#+begin_src python
+multimedia_keys = [
     Key([], "XF86MonBrightnessUp", lazy.spawn(backlight_up), desc="brightness up +1%"),
     Key([], "XF86MonBrightnessDown", lazy.spawn(backlight_down), desc="brightness down +1%"),
     Key([], "XF86AudioRaiseVolume", lazy.spawn(volume_up), desc="volume up +1%"),
@@ -440,6 +457,90 @@ keys = [
     Key([], "XF86AudioPrev", lazy.spawn(audio_prev), desc="previous audio"),
 ]
 
+keys.extend(multimedia_keys)
+#+end_src
+**** Application Keys
+***** single modifier keys only
+#+begin_src python
+mod_keys = [
+    Key([mod], "grave", lazy.spawn("dunstctl close"), desc="dunstctl close"),
+    Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
+    Key([mod], "e", lazy.spawn(filemanager), desc="Launch file manager"),
+    Key([mod], "Tab", lazy.screen.toggle_group(), desc="Toggle between groups"),
+    Key([mod], "q", lazy.spawn(logout), desc="logout"),
+    Key([mod],"c", lazy.spawn(clipboard), desc="clipboard"),
+    Key([mod],"d", lazy.spawn(menu), desc="menu"),
+    Key([mod],"Comma", lazy.spawn(emoji), desc="emoji"),
+    Key([mod], "F4", lazy.window.kill(), desc="Kill focused window"),
+    Key(["mod1"], "F4", lazy.window.kill(), desc="Kill focused window"),
+    Key(
+        [mod],
+        "f",
+        lazy.window.toggle_fullscreen(),
+        desc="Toggle fullscreen on the focused window",
+    ),
+    Key([mod], "t", lazy.window.toggle_floating(), desc="Toggle floating on the focused window"),
+]
+
+keys.extend(mod_keys)
+#+end_src
+***** Mod + Alt (Mod1) keys
+#+begin_src python
+mod_alt_keys = [
+    Key([mod, "mod1"], "Tab", lazy.next_layout(), desc="Toggle between layouts" ),
+    Key([mod, "mod1"], "b", lazy.spawn("rofi-rbw"), desc="Web browser" ),
+    Key([mod, "mod1"], "f", lazy.spawn(browser), desc="Web browser" ),
+    Key([mod, "mod1"], "m", lazy.spawn(ncmpcpp), desc="Ncmpcpp" ),
+    Key([mod, "mod1"], "h", lazy.spawn(htop), desc="htop" ),
+    Key([mod, "mod1"], "n", lazy.spawn(visual), desc="visual editor" ),
+    Key([mod, "mod1"], "p", lazy.spawn("rofi-pass"), desc="rofi frontend for pass" ),
+    Key([mod, "mod1"], "t", lazy.spawn(mail_app), desc="Mail application" ),
+    Key([mod, "mod1"], "w", lazy.spawn(nmtui), desc="NMtui" ),
+    Key([mod, "mod1"], "v", lazy.spawn("pavucontrol"), desc="Launch pavucontrol"),
+
+    Key([mod, "mod1"], "grave", lazy.spawn("dunstctl history-pop"), desc="dunst pop history"),
+]
+
+keys.extend(mod_alt_keys)
+#+end_src
+***** Mod + Shift keys
+#+begin_src python
+mod_shift_keys = [
+    Key([mod, "Shift"], "t", lazy.spawn(tesseract_command), desc="tesseract" ),
+    Key([mod, "Shift"], "grave", lazy.spawn("dunstctl context"), desc="dunst context" ),
+]
+
+keys.extend(mod_shift_keys)
+#+end_src
+***** Mod + Shift + Alt keys
+#+begin_src python
+mod_shift_alt_keys = [
+    Key([mod, "Shift", "mod1"], "e", lazy.spawn(dired), desc="Launch dired"),
+    Key([mod, "Shift", "mod1"], "n", lazy.spawn(nw_emacs), desc="Launch emacs in terminal"),
+]
+
+keys.extend(mod_shift_alt_keys)
+#+end_src
+***** mod + control keys
+#+begin_src python
+mod_control_keys = [
+    Key([mod, "control"], "grave", lazy.spawn("dunstctl action"), desc="dunstctl action"),
+    Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
+]
+
+keys.extend(mod_control_keys)
+#+end_src
+
+#+begin_src python :tangle no
+keys = [
+    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+
+    # fn keys
+]
+#+end_src
+
+***** wayland keys
+#+begin_src python
 # Add key bindings to switch VTs in Wayland.
 # We can't check qtile.core.name in default config as it is loaded before qtile is started
 # We therefore defer the check until the key binding is run by using .when(func=...)
@@ -525,6 +626,25 @@ screens = [
                     },
                     name_transform=lambda name: name.upper(),
                 ),
+                widget.Backlight(
+                    backlight_name="intel_backlight",
+                    brightness_file="brightness",
+                    max_brightness_file="max_brightness",
+                    step=2,
+                    format="󰳲: {percent:2.0%}",
+                    change_command="brightnessctl set {0}%",
+                ),
+                widget.Battery(
+                    low_percentage=0.2,
+                    charge_char="󰂄",
+                    discharge_char="",
+                    empty_char="",
+                    full_char="",
+                    unknown_char="󱃌",
+                    format="{char} {percent:2.0%}",
+                    notify_below=15,
+                    hide_threshold=70,
+                ),
                 widget.TextBox("default config", name="default"),
                 widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
@@ -557,8 +677,21 @@ mouse = [
 *** startups
 #+begin_src python
 STARTUP_COMMANDS = [
+    "xsetroot -cursor_name left_ptr",
+    "xset r rate 300 30",
+    "xrdb -merge ~/.Xresources",
+    "picom -b &",
     "nm-applet --indicator &",
     "gnome-keyring-daemon --components=pkcs11,secrets,ssh -r -d &",
+    "/usr/lib/polkit-kde-authentication-agent-1 &",
+    "xsettingsd &",
+    "unclutter &",
+    "volumeicon &",
+    "greenclip daemon>/dev/null &",
+    "dunst -conf ~/.config/dunst/dunstrc &",
+    "/usr/lib/geoclue-2.0/demos/agent &",
+    "~/.fehbg",
+    "redshift &",
 ]
 
 @hook.subscribe.startup_once
@@ -679,6 +812,38 @@ window {
 
 listview {
     columns: 2;
+    lines: 6;
+}
+
+/* inputbar { */
+/*     children: [textbox-prompt]; */
+/* } */
+
+/* textbox-prompt { */
+/*     str: "Apps"; */
+/*     text-color: inherit; */
+/* } */
+#+end_src
+**** emoji
+:PROPERTIES:
+:header-args: :tangle .config/rofi/themes/qtile-emoji.rasi :mkdirp t
+:END:
+
+#+begin_src css
+/* -*- mode: css -*- */
+@theme "nord"
+
+window {
+    location: northwest;
+    anchor: center;
+    width: 40%;
+    x-offset: 390;
+    y-offset: 130;
+    padding-right: 25px;
+}
+
+listview {
+    columns: 1;
     lines: 6;
 }
 
