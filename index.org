@@ -646,8 +646,6 @@ screens = [
                     notify_below=15,
                     hide_threshold=70,
                 ),
-                widget.TextBox("default config", name="default"),
-                widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
                 widget.Systray(),
@@ -677,29 +675,30 @@ mouse = [
 #+end_src
 *** startups
 #+begin_src python
-STARTUP_COMMANDS = [
-    "xsetroot -cursor_name left_ptr",
-    "xset r rate 300 30",
-    "xrdb -merge ~/.Xresources",
-    "picom -b &",
-    "nm-applet --indicator &",
-    "gnome-keyring-daemon --components=pkcs11,secrets,ssh -r -d &",
-    "/usr/lib/polkit-kde-authentication-agent-1 &",
-    "xsettingsd &",
-    "unclutter &",
-    "volumeicon &",
-    "greenclip daemon>/dev/null &",
-    "dunst -conf ~/.config/dunst/dunstrc &",
-    "/usr/lib/geoclue-2.0/demos/agent &",
-    "~/.fehbg",
-    "redshift &",
-]
+  STARTUP_COMMANDS = [
+      "xsetroot -cursor_name left_ptr",
+      "xset r rate 300 30",
+      "xrdb -merge ~/.Xresources",
+      "picom -b &",
+      "nm-applet --indicator &",
+      "gnome-keyring-daemon --components=pkcs11,secrets,ssh -r -d &",
+      "/usr/lib/polkit-kde-authentication-agent-1 &",
+      "xsettingsd &",
+      "unclutter &",
+      "volumeicon &",
+      "greenclip daemon>/dev/null &",
+      "dunst -conf ~/.config/dunst/dunstrc &",
+      "/usr/lib/geoclue-2.0/demos/agent &",
+      "~/.fehbg",
+      "redshift &",
+      "gsettings set org.gnome.desktop.interface gtk-theme Breeze-dark",
+  ]
 
-@hook.subscribe.startup_once
-def autostart():
-    """Stuffs to autostarts."""
-    for cmd in STARTUP_COMMANDS:
-        system(cmd)
+  @hook.subscribe.startup_once
+  def autostart():
+      """Stuffs to autostarts."""
+      for cmd in STARTUP_COMMANDS:
+          system(cmd)
 
 #+end_src
 ** Utilities
