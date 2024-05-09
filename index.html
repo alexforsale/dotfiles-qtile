@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-05-09 Thu 11:32 -->
+<!-- 2024-05-09 Thu 13:18 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Qtile configuration file</title>
@@ -23,41 +23,41 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org2a81475">Qtile</a>
+<li><a href="#org791e5ae">Qtile</a>
 <ul>
-<li><a href="#org3a98550">Default Configuration file</a>
+<li><a href="#orgd7862d3">Default Configuration file</a>
 <ul>
-<li><a href="#org0d1336d">imports</a></li>
-<li><a href="#org60c9ca4">variables</a></li>
-<li><a href="#org39846e9">keybindings</a></li>
-<li><a href="#orgf8fb8e6">groups</a></li>
-<li><a href="#org442c0d9">layouts</a></li>
-<li><a href="#org74a6978">default widgets and extensions</a></li>
-<li><a href="#orgb4485b7">screens</a></li>
-<li><a href="#org115cb0a">mouse</a></li>
+<li><a href="#orga9c7319">imports</a></li>
+<li><a href="#org429b054">variables</a></li>
+<li><a href="#org69cc669">keybindings</a></li>
+<li><a href="#org594b350">groups</a></li>
+<li><a href="#org6fcef20">layouts</a></li>
+<li><a href="#org82e931f">default widgets and extensions</a></li>
+<li><a href="#org9f91801">screens</a></li>
+<li><a href="#orga4a0536">mouse</a></li>
 </ul>
 </li>
-<li><a href="#org2c37ed7">My Configuration file</a>
+<li><a href="#org83fcdbb">My Configuration file</a>
 <ul>
-<li><a href="#orgd5e05ba">imports</a></li>
-<li><a href="#org19195e4">variables</a></li>
-<li><a href="#org2994142">keybindings</a></li>
-<li><a href="#orge97dabe">groups</a></li>
-<li><a href="#orgaa0ff78">layouts</a></li>
-<li><a href="#org3a17688">default widgets and extensions</a></li>
-<li><a href="#orgbed3507">screens</a></li>
-<li><a href="#orgd3f4e79">mouse</a></li>
-<li><a href="#org40d1cbc">startups</a></li>
+<li><a href="#org7f3df63">imports</a></li>
+<li><a href="#org1a49af8">variables</a></li>
+<li><a href="#org4adc307">keybindings</a></li>
+<li><a href="#org7289284">groups</a></li>
+<li><a href="#org6b32c17">layouts</a></li>
+<li><a href="#org7d31727">default widgets and extensions</a></li>
+<li><a href="#org97fd2a5">screens</a></li>
+<li><a href="#org61500f7">mouse</a></li>
+<li><a href="#orgc4d3302">startups</a></li>
 </ul>
 </li>
-<li><a href="#org2087f73">Utilities</a>
+<li><a href="#orgea2015a">Utilities</a>
 <ul>
-<li><a href="#org4879680">imports</a></li>
+<li><a href="#org32d8225">imports</a></li>
 </ul>
 </li>
-<li><a href="#org18a0c16">External utilities</a>
+<li><a href="#org6cfa5ca">External utilities</a>
 <ul>
-<li><a href="#orgfa2a1fa">rofi</a></li>
+<li><a href="#orgdb37f79">rofi</a></li>
 </ul>
 </li>
 </ul>
@@ -65,23 +65,23 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org2a81475" class="outline-2">
-<h2 id="org2a81475">Qtile</h2>
-<div class="outline-text-2" id="text-org2a81475">
+<div id="outline-container-org791e5ae" class="outline-2">
+<h2 id="org791e5ae">Qtile</h2>
+<div class="outline-text-2" id="text-org791e5ae">
 <p>
 This is the configuration file for <i>qtile</i> window manager.
 </p>
 </div>
-<div id="outline-container-org3a98550" class="outline-3">
-<h3 id="org3a98550">Default Configuration file</h3>
-<div class="outline-text-3" id="text-org3a98550">
+<div id="outline-container-orgd7862d3" class="outline-3">
+<h3 id="orgd7862d3">Default Configuration file</h3>
+<div class="outline-text-3" id="text-orgd7862d3">
 <p>
 This is the default configuration that comes from the package in <i>archlinux</i>:
 </p>
 </div>
-<div id="outline-container-org0d1336d" class="outline-4">
-<h4 id="org0d1336d">imports</h4>
-<div class="outline-text-4" id="text-org0d1336d">
+<div id="outline-container-orga9c7319" class="outline-4">
+<h4 id="orga9c7319">imports</h4>
+<div class="outline-text-4" id="text-orga9c7319">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #4169e1;">from</span> libqtile <span style="color: #4169e1;">import</span> bar, layout, qtile, widget
 <span style="color: #4169e1;">from</span> libqtile.config <span style="color: #4169e1;">import</span> Click, Drag, Group, Key, Match, Screen
@@ -91,9 +91,9 @@ This is the default configuration that comes from the package in <i>archlinux</i
 </div>
 </div>
 </div>
-<div id="outline-container-org60c9ca4" class="outline-4">
-<h4 id="org60c9ca4">variables</h4>
-<div class="outline-text-4" id="text-org60c9ca4">
+<div id="outline-container-org429b054" class="outline-4">
+<h4 id="org429b054">variables</h4>
+<div class="outline-text-4" id="text-org429b054">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">mod</span> = <span style="color: #bc8f8f;">"mod4"</span>
 <span style="color: #b8860b;">terminal</span> = guess_terminal()
@@ -139,9 +139,9 @@ This is the default configuration that comes from the package in <i>archlinux</i
 </div>
 </div>
 </div>
-<div id="outline-container-org39846e9" class="outline-4">
-<h4 id="org39846e9">keybindings</h4>
-<div class="outline-text-4" id="text-org39846e9">
+<div id="outline-container-org69cc669" class="outline-4">
+<h4 id="org69cc669">keybindings</h4>
+<div class="outline-text-4" id="text-org69cc669">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">keys</span> = [
     <span style="color: #b22222;"># </span><span style="color: #b22222;">A list of available commands that can be bound to keys can be found</span>
@@ -208,9 +208,9 @@ This is the default configuration that comes from the package in <i>archlinux</i
 </div>
 </div>
 </div>
-<div id="outline-container-orgf8fb8e6" class="outline-4">
-<h4 id="orgf8fb8e6">groups</h4>
-<div class="outline-text-4" id="text-orgf8fb8e6">
+<div id="outline-container-org594b350" class="outline-4">
+<h4 id="org594b350">groups</h4>
+<div class="outline-text-4" id="text-org594b350">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">groups</span> = [Group(i) <span style="color: #4169e1;">for</span> i <span style="color: #4169e1;">in</span> <span style="color: #bc8f8f;">"123456789"</span>]
 
@@ -241,9 +241,9 @@ This is the default configuration that comes from the package in <i>archlinux</i
 </div>
 </div>
 </div>
-<div id="outline-container-org442c0d9" class="outline-4">
-<h4 id="org442c0d9">layouts</h4>
-<div class="outline-text-4" id="text-org442c0d9">
+<div id="outline-container-org6fcef20" class="outline-4">
+<h4 id="org6fcef20">layouts</h4>
+<div class="outline-text-4" id="text-org6fcef20">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">layouts</span> = [
     layout.Columns(border_focus_stack=[<span style="color: #bc8f8f;">"#d75f5f"</span>, <span style="color: #bc8f8f;">"#8f3d3d"</span>], border_width=4),
@@ -264,9 +264,9 @@ This is the default configuration that comes from the package in <i>archlinux</i
 </div>
 </div>
 </div>
-<div id="outline-container-org74a6978" class="outline-4">
-<h4 id="org74a6978">default widgets and extensions</h4>
-<div class="outline-text-4" id="text-org74a6978">
+<div id="outline-container-org82e931f" class="outline-4">
+<h4 id="org82e931f">default widgets and extensions</h4>
+<div class="outline-text-4" id="text-org82e931f">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">widget_defaults</span> = <span style="color: #00008b;">dict</span>(
     font=<span style="color: #bc8f8f;">"sans"</span>,
@@ -278,9 +278,9 @@ This is the default configuration that comes from the package in <i>archlinux</i
 </div>
 </div>
 </div>
-<div id="outline-container-orgb4485b7" class="outline-4">
-<h4 id="orgb4485b7">screens</h4>
-<div class="outline-text-4" id="text-orgb4485b7">
+<div id="outline-container-org9f91801" class="outline-4">
+<h4 id="org9f91801">screens</h4>
+<div class="outline-text-4" id="text-org9f91801">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">screens</span> = [
     Screen(
@@ -318,9 +318,9 @@ This is the default configuration that comes from the package in <i>archlinux</i
 </div>
 </div>
 </div>
-<div id="outline-container-org115cb0a" class="outline-4">
-<h4 id="org115cb0a">mouse</h4>
-<div class="outline-text-4" id="text-org115cb0a">
+<div id="outline-container-orga4a0536" class="outline-4">
+<h4 id="orga4a0536">mouse</h4>
+<div class="outline-text-4" id="text-orga4a0536">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b22222;"># </span><span style="color: #b22222;">Drag floating layouts.</span>
 <span style="color: #b8860b;">mouse</span> = [
@@ -334,13 +334,13 @@ This is the default configuration that comes from the package in <i>archlinux</i
 </div>
 </div>
 </div>
-<div id="outline-container-org2c37ed7" class="outline-3">
-<h3 id="org2c37ed7">My Configuration file</h3>
-<div class="outline-text-3" id="text-org2c37ed7">
+<div id="outline-container-org83fcdbb" class="outline-3">
+<h3 id="org83fcdbb">My Configuration file</h3>
+<div class="outline-text-3" id="text-org83fcdbb">
 </div>
-<div id="outline-container-orgd5e05ba" class="outline-4">
-<h4 id="orgd5e05ba">imports</h4>
-<div class="outline-text-4" id="text-orgd5e05ba">
+<div id="outline-container-org7f3df63" class="outline-4">
+<h4 id="org7f3df63">imports</h4>
+<div class="outline-text-4" id="text-org7f3df63">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #4169e1;">from</span> libqtile <span style="color: #4169e1;">import</span> bar, layout, qtile, widget, hook
 <span style="color: #4169e1;">from</span> libqtile.config <span style="color: #4169e1;">import</span> Click, Drag, Group, Key, Match, Screen
@@ -351,9 +351,9 @@ This is the default configuration that comes from the package in <i>archlinux</i
 </div>
 </div>
 </div>
-<div id="outline-container-org19195e4" class="outline-4">
-<h4 id="org19195e4">variables</h4>
-<div class="outline-text-4" id="text-org19195e4">
+<div id="outline-container-org1a49af8" class="outline-4">
+<h4 id="org1a49af8">variables</h4>
+<div class="outline-text-4" id="text-org1a49af8">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">mod</span> = <span style="color: #bc8f8f;">"mod4"</span>
 
@@ -428,17 +428,17 @@ This is the default configuration that comes from the package in <i>archlinux</i
 </div>
 </div>
 </div>
-<div id="outline-container-org2994142" class="outline-4">
-<h4 id="org2994142">keybindings</h4>
-<div class="outline-text-4" id="text-org2994142">
+<div id="outline-container-org4adc307" class="outline-4">
+<h4 id="org4adc307">keybindings</h4>
+<div class="outline-text-4" id="text-org4adc307">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">keys</span> = []
 </pre>
 </div>
 </div>
 <ul class="org-ul">
-<li><a id="org6e197bf"></a>focus movements<br />
-<div class="outline-text-5" id="text-org6e197bf">
+<li><a id="org39af37e"></a>focus movements<br />
+<div class="outline-text-5" id="text-org39af37e">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">focus_keys</span> = [
     Key([mod], <span style="color: #bc8f8f;">"h"</span>, lazy.layout.left(), desc=<span style="color: #bc8f8f;">"Move focus to left"</span>),
@@ -457,8 +457,8 @@ keys.extend(focus_keys)
 </div>
 </div>
 </li>
-<li><a id="org19f4b29"></a>window movements<br />
-<div class="outline-text-5" id="text-org19f4b29">
+<li><a id="orge70389f"></a>window movements<br />
+<div class="outline-text-5" id="text-orge70389f">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">movement_keys</span> = [
     Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"h"</span>, lazy.layout.shuffle_left(), desc=<span style="color: #bc8f8f;">"Move window to the left"</span>),
@@ -477,8 +477,8 @@ keys.extend(movement_keys)
 </div>
 </div>
 </li>
-<li><a id="org474dd9b"></a>resize<br />
-<div class="outline-text-5" id="text-org474dd9b">
+<li><a id="org4b1dbf1"></a>resize<br />
+<div class="outline-text-5" id="text-org4b1dbf1">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">resize_keys</span> = [
     Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"h"</span>, lazy.layout.grow_left(), desc=<span style="color: #bc8f8f;">"Grow window to the left"</span>),
@@ -497,8 +497,8 @@ keys.extend(resize_keys)
 </div>
 </div>
 </li>
-<li><a id="orgbea4b31"></a>layout keys<br />
-<div class="outline-text-5" id="text-orgbea4b31">
+<li><a id="org595f014"></a>layout keys<br />
+<div class="outline-text-5" id="text-org595f014">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">layout_keys</span> = [
     Key([mod], <span style="color: #bc8f8f;">"n"</span>, lazy.layout.normalize(), desc=<span style="color: #bc8f8f;">"Reset all window sizes"</span>),
@@ -515,8 +515,8 @@ keys.extend(layout_keys)
 </div>
 </div>
 </li>
-<li><a id="org9c1bd96"></a>multimedia_key<br />
-<div class="outline-text-5" id="text-org9c1bd96">
+<li><a id="orgab8d26b"></a>multimedia_key<br />
+<div class="outline-text-5" id="text-orgab8d26b">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">multimedia_keys</span> = [
     Key([], <span style="color: #bc8f8f;">"XF86MonBrightnessUp"</span>, lazy.spawn(backlight_up), desc=<span style="color: #bc8f8f;">"brightness up +1%"</span>),
@@ -536,10 +536,10 @@ keys.extend(multimedia_keys)
 </div>
 </div>
 </li>
-<li><a id="org1af19be"></a>Application Keys<br />
+<li><a id="org0c4ecb3"></a>Application Keys<br />
 <ul class="org-ul">
-<li><a id="orgfed5c16"></a>single modifier keys only<br />
-<div class="outline-text-6" id="text-orgfed5c16">
+<li><a id="org7a56946"></a>single modifier keys only<br />
+<div class="outline-text-6" id="text-org7a56946">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">mod_keys</span> = [
     Key([mod], <span style="color: #bc8f8f;">"grave"</span>, lazy.spawn(<span style="color: #bc8f8f;">"dunstctl close"</span>), desc=<span style="color: #bc8f8f;">"dunstctl close"</span>),
@@ -566,8 +566,8 @@ keys.extend(mod_keys)
 </div>
 </div>
 </li>
-<li><a id="org6d32f30"></a>Mod + Alt (Mod1) keys<br />
-<div class="outline-text-6" id="text-org6d32f30">
+<li><a id="orgd6f9aeb"></a>Mod + Alt (Mod1) keys<br />
+<div class="outline-text-6" id="text-orgd6f9aeb">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">mod_alt_keys</span> = [
     Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"Tab"</span>, lazy.next_layout(), desc=<span style="color: #bc8f8f;">"Toggle between layouts"</span> ),
@@ -589,8 +589,8 @@ keys.extend(mod_alt_keys)
 </div>
 </div>
 </li>
-<li><a id="orgdbda820"></a>Mod + Shift keys<br />
-<div class="outline-text-6" id="text-orgdbda820">
+<li><a id="org589ca3e"></a>Mod + Shift keys<br />
+<div class="outline-text-6" id="text-org589ca3e">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">mod_shift_keys</span> = [
     Key([mod, <span style="color: #bc8f8f;">"Shift"</span>], <span style="color: #bc8f8f;">"t"</span>, lazy.spawn(tesseract_command), desc=<span style="color: #bc8f8f;">"tesseract"</span> ),
@@ -602,8 +602,8 @@ keys.extend(mod_shift_keys)
 </div>
 </div>
 </li>
-<li><a id="orgd96027a"></a>Mod + Shift + Alt keys<br />
-<div class="outline-text-6" id="text-orgd96027a">
+<li><a id="orgda82347"></a>Mod + Shift + Alt keys<br />
+<div class="outline-text-6" id="text-orgda82347">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">mod_shift_alt_keys</span> = [
     Key([mod, <span style="color: #bc8f8f;">"Shift"</span>, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"e"</span>, lazy.spawn(dired), desc=<span style="color: #bc8f8f;">"Launch dired"</span>),
@@ -615,8 +615,8 @@ keys.extend(mod_shift_alt_keys)
 </div>
 </div>
 </li>
-<li><a id="org22c25fc"></a>mod + control keys<br />
-<div class="outline-text-6" id="text-org22c25fc">
+<li><a id="org9d14e7d"></a>mod + control keys<br />
+<div class="outline-text-6" id="text-org9d14e7d">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">mod_control_keys</span> = [
     Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"grave"</span>, lazy.spawn(<span style="color: #bc8f8f;">"dunstctl action"</span>), desc=<span style="color: #bc8f8f;">"dunstctl action"</span>),
@@ -641,8 +641,8 @@ This is from the default
 </div>
 </li>
 
-<li><a id="orgde05884"></a>wayland keys<br />
-<div class="outline-text-6" id="text-orgde05884">
+<li><a id="orgf52853b"></a>wayland keys<br />
+<div class="outline-text-6" id="text-orgf52853b">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b22222;"># </span><span style="color: #b22222;">Add key bindings to switch VTs in Wayland.</span>
 <span style="color: #b22222;"># </span><span style="color: #b22222;">We can't check qtile.core.name in default config as it is loaded before qtile is started</span>
@@ -665,9 +665,9 @@ This is from the default
 </li>
 </ul>
 </div>
-<div id="outline-container-orge97dabe" class="outline-4">
-<h4 id="orge97dabe">groups</h4>
-<div class="outline-text-4" id="text-orge97dabe">
+<div id="outline-container-org7289284" class="outline-4">
+<h4 id="org7289284">groups</h4>
+<div class="outline-text-4" id="text-org7289284">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">groups</span> = [Group(i) <span style="color: #4169e1;">for</span> i <span style="color: #4169e1;">in</span> <span style="color: #bc8f8f;">"123456789"</span>]
 
@@ -698,9 +698,9 @@ This is from the default
 </div>
 </div>
 </div>
-<div id="outline-container-orgaa0ff78" class="outline-4">
-<h4 id="orgaa0ff78">layouts</h4>
-<div class="outline-text-4" id="text-orgaa0ff78">
+<div id="outline-container-org6b32c17" class="outline-4">
+<h4 id="org6b32c17">layouts</h4>
+<div class="outline-text-4" id="text-org6b32c17">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">layouts</span> = [
     layout.Columns(border_focus_stack=[<span style="color: #bc8f8f;">"#d75f5f"</span>, <span style="color: #bc8f8f;">"#8f3d3d"</span>], border_width=4),
@@ -721,9 +721,9 @@ This is from the default
 </div>
 </div>
 </div>
-<div id="outline-container-org3a17688" class="outline-4">
-<h4 id="org3a17688">default widgets and extensions</h4>
-<div class="outline-text-4" id="text-org3a17688">
+<div id="outline-container-org7d31727" class="outline-4">
+<h4 id="org7d31727">default widgets and extensions</h4>
+<div class="outline-text-4" id="text-org7d31727">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">widget_defaults</span> = <span style="color: #00008b;">dict</span>(
     font=<span style="color: #bc8f8f;">"sans"</span>,
@@ -735,9 +735,9 @@ This is from the default
 </div>
 </div>
 </div>
-<div id="outline-container-orgbed3507" class="outline-4">
-<h4 id="orgbed3507">screens</h4>
-<div class="outline-text-4" id="text-orgbed3507">
+<div id="outline-container-org97fd2a5" class="outline-4">
+<h4 id="org97fd2a5">screens</h4>
+<div class="outline-text-4" id="text-org97fd2a5">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">screens</span> = [
     Screen(
@@ -772,8 +772,6 @@ This is from the default
                     notify_below=15,
                     hide_threshold=70,
                 ),
-                widget.TextBox(<span style="color: #bc8f8f;">"default config"</span>, name=<span style="color: #bc8f8f;">"default"</span>),
-                widget.TextBox(<span style="color: #bc8f8f;">"Press &amp;lt;M-r&amp;gt; to spawn"</span>, foreground=<span style="color: #bc8f8f;">"#d75f5f"</span>),
                 <span style="color: #b22222;"># </span><span style="color: #b22222;">NB Systray is incompatible with Wayland, consider using StatusNotifier instead</span>
                 <span style="color: #b22222;"># </span><span style="color: #b22222;">widget.StatusNotifier(),</span>
                 widget.Systray(),
@@ -794,9 +792,9 @@ This is from the default
 </div>
 </div>
 </div>
-<div id="outline-container-orgd3f4e79" class="outline-4">
-<h4 id="orgd3f4e79">mouse</h4>
-<div class="outline-text-4" id="text-orgd3f4e79">
+<div id="outline-container-org61500f7" class="outline-4">
+<h4 id="org61500f7">mouse</h4>
+<div class="outline-text-4" id="text-org61500f7">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b22222;"># </span><span style="color: #b22222;">Drag floating layouts.</span>
 <span style="color: #b8860b;">mouse</span> = [
@@ -809,9 +807,9 @@ This is from the default
 </div>
 </div>
 </div>
-<div id="outline-container-org40d1cbc" class="outline-4">
-<h4 id="org40d1cbc">startups</h4>
-<div class="outline-text-4" id="text-org40d1cbc">
+<div id="outline-container-orgc4d3302" class="outline-4">
+<h4 id="orgc4d3302">startups</h4>
+<div class="outline-text-4" id="text-orgc4d3302">
 <div class="org-src-container">
 <pre class="src src-python"><span style="color: #b8860b;">STARTUP_COMMANDS</span> = [
     <span style="color: #bc8f8f;">"xsetroot -cursor_name left_ptr"</span>,
@@ -829,6 +827,7 @@ This is from the default
     <span style="color: #bc8f8f;">"/usr/lib/geoclue-2.0/demos/agent &amp;"</span>,
     <span style="color: #bc8f8f;">"~/.fehbg"</span>,
     <span style="color: #bc8f8f;">"redshift &amp;"</span>,
+    <span style="color: #bc8f8f;">"gsettings set org.gnome.desktop.interface gtk-theme Breeze-dark"</span>,
 ]
 
 <span style="color: #228b22;">@hook.subscribe.startup_once</span>
@@ -842,14 +841,14 @@ This is from the default
 </div>
 </div>
 </div>
-<div id="outline-container-org2087f73" class="outline-3">
-<h3 id="org2087f73">Utilities</h3>
-<div class="outline-text-3" id="text-org2087f73">
+<div id="outline-container-orgea2015a" class="outline-3">
+<h3 id="orgea2015a">Utilities</h3>
+<div class="outline-text-3" id="text-orgea2015a">
 </div>
 
-<div id="outline-container-org4879680" class="outline-4">
-<h4 id="org4879680">imports</h4>
-<div class="outline-text-4" id="text-org4879680">
+<div id="outline-container-org32d8225" class="outline-4">
+<h4 id="org32d8225">imports</h4>
+<div class="outline-text-4" id="text-org32d8225">
 <div class="org-src-container">
 <pre class="src src-python">
 </pre>
@@ -857,17 +856,17 @@ This is from the default
 </div>
 </div>
 </div>
-<div id="outline-container-org18a0c16" class="outline-3">
-<h3 id="org18a0c16">External utilities</h3>
-<div class="outline-text-3" id="text-org18a0c16">
+<div id="outline-container-org6cfa5ca" class="outline-3">
+<h3 id="org6cfa5ca">External utilities</h3>
+<div class="outline-text-3" id="text-org6cfa5ca">
 </div>
-<div id="outline-container-orgfa2a1fa" class="outline-4">
-<h4 id="orgfa2a1fa">rofi</h4>
-<div class="outline-text-4" id="text-orgfa2a1fa">
+<div id="outline-container-orgdb37f79" class="outline-4">
+<h4 id="orgdb37f79">rofi</h4>
+<div class="outline-text-4" id="text-orgdb37f79">
 </div>
 <ul class="org-ul">
-<li><a id="org6c70366"></a>menu<br />
-<div class="outline-text-5" id="text-org6c70366">
+<li><a id="org70fc3d5"></a>menu<br />
+<div class="outline-text-5" id="text-org70fc3d5">
 <div class="org-src-container">
 <pre class="src src-css"><span style="color: #b22222;">/* </span><span style="color: #b22222;">-*- mode: css -*- </span><span style="color: #b22222;">*/</span>
 <span style="color: #00008b;">@theme</span> <span style="color: #bc8f8f;">"nord"</span>
@@ -898,8 +897,8 @@ This is from the default
 </div>
 </div>
 </li>
-<li><a id="orgb136ab0"></a>logout<br />
-<div class="outline-text-5" id="text-orgb136ab0">
+<li><a id="org24f2611"></a>logout<br />
+<div class="outline-text-5" id="text-org24f2611">
 <div class="org-src-container">
 <pre class="src src-css"><span style="color: #b22222;">/* </span><span style="color: #b22222;">-*-css -*- </span><span style="color: #b22222;">*/</span>
 <span style="color: #00008b;">@theme</span> <span style="color: #bc8f8f;">"nord"</span>
@@ -926,8 +925,8 @@ This is from the default
 </div>
 </div>
 </li>
-<li><a id="org4d296b1"></a>clipboard<br />
-<div class="outline-text-5" id="text-org4d296b1">
+<li><a id="orge738af8"></a>clipboard<br />
+<div class="outline-text-5" id="text-orge738af8">
 <div class="org-src-container">
 <pre class="src src-css">
 <span style="color: #b22222;">/* </span><span style="color: #b22222;">-*- mode: css -*- </span><span style="color: #b22222;">*/</span>
@@ -959,8 +958,8 @@ This is from the default
 </div>
 </div>
 </li>
-<li><a id="orgcb49ddb"></a>emoji<br />
-<div class="outline-text-5" id="text-orgcb49ddb">
+<li><a id="orgb104e8b"></a>emoji<br />
+<div class="outline-text-5" id="text-orgb104e8b">
 <div class="org-src-container">
 <pre class="src src-css"><span style="color: #b22222;">/* </span><span style="color: #b22222;">-*- mode: css -*- </span><span style="color: #b22222;">*/</span>
 <span style="color: #00008b;">@theme</span> <span style="color: #bc8f8f;">"nord"</span>
@@ -999,7 +998,7 @@ This is from the default
 <div id="postamble" class="status">
 <p class="date">Date: 2024-03-26 Tue 00:00</p>
 <p class="author">Author: Kristian Alexander P</p>
-<p class="date">Created: 2024-05-09 Thu 11:32</p>
+<p class="date">Created: 2024-05-09 Thu 13:18</p>
 </div>
 </body>
 </html>
