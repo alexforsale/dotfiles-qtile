@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-03-26 Tue 02:45 -->
+<!-- 2024-05-09 Thu 11:32 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Qtile configuration file</title>
@@ -23,18 +23,983 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orge812450">Qtile</a></li>
+<li><a href="#org2a81475">Qtile</a>
+<ul>
+<li><a href="#org3a98550">Default Configuration file</a>
+<ul>
+<li><a href="#org0d1336d">imports</a></li>
+<li><a href="#org60c9ca4">variables</a></li>
+<li><a href="#org39846e9">keybindings</a></li>
+<li><a href="#orgf8fb8e6">groups</a></li>
+<li><a href="#org442c0d9">layouts</a></li>
+<li><a href="#org74a6978">default widgets and extensions</a></li>
+<li><a href="#orgb4485b7">screens</a></li>
+<li><a href="#org115cb0a">mouse</a></li>
+</ul>
+</li>
+<li><a href="#org2c37ed7">My Configuration file</a>
+<ul>
+<li><a href="#orgd5e05ba">imports</a></li>
+<li><a href="#org19195e4">variables</a></li>
+<li><a href="#org2994142">keybindings</a></li>
+<li><a href="#orge97dabe">groups</a></li>
+<li><a href="#orgaa0ff78">layouts</a></li>
+<li><a href="#org3a17688">default widgets and extensions</a></li>
+<li><a href="#orgbed3507">screens</a></li>
+<li><a href="#orgd3f4e79">mouse</a></li>
+<li><a href="#org40d1cbc">startups</a></li>
+</ul>
+</li>
+<li><a href="#org2087f73">Utilities</a>
+<ul>
+<li><a href="#org4879680">imports</a></li>
+</ul>
+</li>
+<li><a href="#org18a0c16">External utilities</a>
+<ul>
+<li><a href="#orgfa2a1fa">rofi</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orge812450" class="outline-2">
-<h2 id="orge812450">Qtile</h2>
+<div id="outline-container-org2a81475" class="outline-2">
+<h2 id="org2a81475">Qtile</h2>
+<div class="outline-text-2" id="text-org2a81475">
+<p>
+This is the configuration file for <i>qtile</i> window manager.
+</p>
+</div>
+<div id="outline-container-org3a98550" class="outline-3">
+<h3 id="org3a98550">Default Configuration file</h3>
+<div class="outline-text-3" id="text-org3a98550">
+<p>
+This is the default configuration that comes from the package in <i>archlinux</i>:
+</p>
+</div>
+<div id="outline-container-org0d1336d" class="outline-4">
+<h4 id="org0d1336d">imports</h4>
+<div class="outline-text-4" id="text-org0d1336d">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #4169e1;">from</span> libqtile <span style="color: #4169e1;">import</span> bar, layout, qtile, widget
+<span style="color: #4169e1;">from</span> libqtile.config <span style="color: #4169e1;">import</span> Click, Drag, Group, Key, Match, Screen
+<span style="color: #4169e1;">from</span> libqtile.lazy <span style="color: #4169e1;">import</span> lazy
+<span style="color: #4169e1;">from</span> libqtile.utils <span style="color: #4169e1;">import</span> guess_terminal
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org60c9ca4" class="outline-4">
+<h4 id="org60c9ca4">variables</h4>
+<div class="outline-text-4" id="text-org60c9ca4">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">mod</span> = <span style="color: #bc8f8f;">"mod4"</span>
+<span style="color: #b8860b;">terminal</span> = guess_terminal()
+<span style="color: #b8860b;">dgroups_key_binder</span> = <span style="color: #5f9ea0;">None</span>
+<span style="color: #b8860b;">dgroups_app_rules</span> = []  <span style="color: #b22222;"># </span><span style="color: #b22222;">type: list</span>
+<span style="color: #b8860b;">follow_mouse_focus</span> = <span style="color: #5f9ea0;">True</span>
+<span style="color: #b8860b;">bring_front_click</span> = <span style="color: #5f9ea0;">False</span>
+<span style="color: #b8860b;">floats_kept_above</span> = <span style="color: #5f9ea0;">True</span>
+<span style="color: #b8860b;">cursor_warp</span> = <span style="color: #5f9ea0;">False</span>
+<span style="color: #b8860b;">floating_layout</span> = layout.Floating(
+    float_rules=[
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">Run the utility of `xprop` to see the wm class and name of an X client.</span>
+        *layout.Floating.default_float_rules,
+        Match(wm_class=<span style="color: #bc8f8f;">"confirmreset"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">gitk</span>
+        Match(wm_class=<span style="color: #bc8f8f;">"makebranch"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">gitk</span>
+        Match(wm_class=<span style="color: #bc8f8f;">"maketag"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">gitk</span>
+        Match(wm_class=<span style="color: #bc8f8f;">"ssh-askpass"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">ssh-askpass</span>
+        Match(title=<span style="color: #bc8f8f;">"branchdialog"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">gitk</span>
+        Match(title=<span style="color: #bc8f8f;">"pinentry"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">GPG key password entry</span>
+    ]
+)
+<span style="color: #b8860b;">auto_fullscreen</span> = <span style="color: #5f9ea0;">True</span>
+<span style="color: #b8860b;">focus_on_window_activation</span> = <span style="color: #bc8f8f;">"smart"</span>
+<span style="color: #b8860b;">reconfigure_screens</span> = <span style="color: #5f9ea0;">True</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">If things like steam games want to auto-minimize themselves when losing</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">focus, should we respect this or not?</span>
+<span style="color: #b8860b;">auto_minimize</span> = <span style="color: #5f9ea0;">True</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">When using the Wayland backend, this can be used to configure input devices.</span>
+<span style="color: #b8860b;">wl_input_rules</span> = <span style="color: #5f9ea0;">None</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">string besides java UI toolkits; you can see several discussions on the</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">mailing lists, GitHub issues, and other WM documentation that suggest setting</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">this string if your java app doesn't work correctly. We may as well just lie</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">and say that we're a working one by default.</span>
+<span style="color: #b22222;">#</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">java that happens to be on java's whitelist.</span>
+<span style="color: #b8860b;">wmname</span> = <span style="color: #bc8f8f;">"LG3D"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org39846e9" class="outline-4">
+<h4 id="org39846e9">keybindings</h4>
+<div class="outline-text-4" id="text-org39846e9">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">keys</span> = [
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">A list of available commands that can be bound to keys can be found</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">at https://docs.qtile.org/en/latest/manual/config/lazy.html</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Switch between windows</span>
+    Key([mod], <span style="color: #bc8f8f;">"h"</span>, lazy.layout.left(), desc=<span style="color: #bc8f8f;">"Move focus to left"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"l"</span>, lazy.layout.right(), desc=<span style="color: #bc8f8f;">"Move focus to right"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"j"</span>, lazy.layout.down(), desc=<span style="color: #bc8f8f;">"Move focus down"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"k"</span>, lazy.layout.up(), desc=<span style="color: #bc8f8f;">"Move focus up"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"space"</span>, lazy.layout.<span style="color: #00008b;">next</span>(), desc=<span style="color: #bc8f8f;">"Move window focus to other window"</span>),
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Move windows between left/right columns or move up/down in current stack.</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Moving out of range in Columns layout will create new column.</span>
+    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"h"</span>, lazy.layout.shuffle_left(), desc=<span style="color: #bc8f8f;">"Move window to the left"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"l"</span>, lazy.layout.shuffle_right(), desc=<span style="color: #bc8f8f;">"Move window to the right"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"j"</span>, lazy.layout.shuffle_down(), desc=<span style="color: #bc8f8f;">"Move window down"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"k"</span>, lazy.layout.shuffle_up(), desc=<span style="color: #bc8f8f;">"Move window up"</span>),
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Grow windows. If current window is on the edge of screen and direction</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">will be to screen edge - window would shrink.</span>
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"h"</span>, lazy.layout.grow_left(), desc=<span style="color: #bc8f8f;">"Grow window to the left"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"l"</span>, lazy.layout.grow_right(), desc=<span style="color: #bc8f8f;">"Grow window to the right"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"j"</span>, lazy.layout.grow_down(), desc=<span style="color: #bc8f8f;">"Grow window down"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"k"</span>, lazy.layout.grow_up(), desc=<span style="color: #bc8f8f;">"Grow window up"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"n"</span>, lazy.layout.normalize(), desc=<span style="color: #bc8f8f;">"Reset all window sizes"</span>),
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Toggle between split and unsplit sides of stack.</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Split = all windows displayed</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Unsplit = 1 window displayed, like Max layout, but still with</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">multiple stack panes</span>
+    Key(
+        [mod, <span style="color: #bc8f8f;">"shift"</span>],
+        <span style="color: #bc8f8f;">"Return"</span>,
+        lazy.layout.toggle_split(),
+        desc=<span style="color: #bc8f8f;">"Toggle between split and unsplit sides of stack"</span>,
+    ),
+    Key([mod], <span style="color: #bc8f8f;">"Return"</span>, lazy.spawn(terminal), desc=<span style="color: #bc8f8f;">"Launch terminal"</span>),
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Toggle between different layouts as defined below</span>
+    Key([mod], <span style="color: #bc8f8f;">"Tab"</span>, lazy.next_layout(), desc=<span style="color: #bc8f8f;">"Toggle between layouts"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"w"</span>, lazy.window.kill(), desc=<span style="color: #bc8f8f;">"Kill focused window"</span>),
+    Key(
+        [mod],
+        <span style="color: #bc8f8f;">"f"</span>,
+        lazy.window.toggle_fullscreen(),
+        desc=<span style="color: #bc8f8f;">"Toggle fullscreen on the focused window"</span>,
+    ),
+    Key([mod], <span style="color: #bc8f8f;">"t"</span>, lazy.window.toggle_floating(), desc=<span style="color: #bc8f8f;">"Toggle floating on the focused window"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"r"</span>, lazy.reload_config(), desc=<span style="color: #bc8f8f;">"Reload the config"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"q"</span>, lazy.shutdown(), desc=<span style="color: #bc8f8f;">"Shutdown Qtile"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"r"</span>, lazy.spawncmd(), desc=<span style="color: #bc8f8f;">"Spawn a command using a prompt widget"</span>),
+]
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">Add key bindings to switch VTs in Wayland.</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">We can't check qtile.core.name in default config as it is loaded before qtile is started</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">We therefore defer the check until the key binding is run by using .when(func=...)</span>
+<span style="color: #4169e1;">for</span> vt <span style="color: #4169e1;">in</span> <span style="color: #00008b;">range</span>(1, 8):
+    keys.append(
+        Key(
+            [<span style="color: #bc8f8f;">"control"</span>, <span style="color: #bc8f8f;">"mod1"</span>],
+            f<span style="color: #bc8f8f;">"f{vt}"</span>,
+            lazy.core.change_vt(vt).when(func=<span style="color: #4169e1;">lambda</span>: qtile.core.name == <span style="color: #bc8f8f;">"wayland"</span>),
+            desc=f<span style="color: #bc8f8f;">"Switch to VT{vt}"</span>,
+        )
+    )
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf8fb8e6" class="outline-4">
+<h4 id="orgf8fb8e6">groups</h4>
+<div class="outline-text-4" id="text-orgf8fb8e6">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">groups</span> = [Group(i) <span style="color: #4169e1;">for</span> i <span style="color: #4169e1;">in</span> <span style="color: #bc8f8f;">"123456789"</span>]
+
+<span style="color: #4169e1;">for</span> i <span style="color: #4169e1;">in</span> groups:
+    keys.extend(
+        [
+            <span style="color: #b22222;"># </span><span style="color: #b22222;">mod1 + group number = switch to group</span>
+            Key(
+                [mod],
+                i.name,
+                lazy.group[i.name].toscreen(),
+                desc=<span style="color: #bc8f8f;">"Switch to group {}"</span>.<span style="color: #00008b;">format</span>(i.name),
+            ),
+            <span style="color: #b22222;"># </span><span style="color: #b22222;">mod1 + shift + group number = switch to &amp; move focused window to group</span>
+            Key(
+                [mod, <span style="color: #bc8f8f;">"shift"</span>],
+                i.name,
+                lazy.window.togroup(i.name, switch_group=<span style="color: #5f9ea0;">True</span>),
+                desc=<span style="color: #bc8f8f;">"Switch to &amp; move focused window to group {}"</span>.<span style="color: #00008b;">format</span>(i.name),
+            ),
+            <span style="color: #b22222;"># </span><span style="color: #b22222;">Or, use below if you prefer not to switch to that group.</span>
+            <span style="color: #b22222;"># </span><span style="color: #b22222;"># mod1 + shift + group number = move focused window to group</span>
+            <span style="color: #b22222;"># </span><span style="color: #b22222;">Key([mod, "shift"], i.name, lazy.window.togroup(i.name),</span>
+            <span style="color: #b22222;">#     </span><span style="color: #b22222;">desc="move focused window to group {}".format(i.name)),</span>
+        ]
+    )
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org442c0d9" class="outline-4">
+<h4 id="org442c0d9">layouts</h4>
+<div class="outline-text-4" id="text-org442c0d9">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">layouts</span> = [
+    layout.Columns(border_focus_stack=[<span style="color: #bc8f8f;">"#d75f5f"</span>, <span style="color: #bc8f8f;">"#8f3d3d"</span>], border_width=4),
+    layout.Max(),
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Try more layouts by unleashing below layouts.</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Stack(num_stacks=2),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Bsp(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Matrix(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.MonadTall(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.MonadWide(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.RatioTile(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Tile(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.TreeTab(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.VerticalTile(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Zoomy(),</span>
+]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org74a6978" class="outline-4">
+<h4 id="org74a6978">default widgets and extensions</h4>
+<div class="outline-text-4" id="text-org74a6978">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">widget_defaults</span> = <span style="color: #00008b;">dict</span>(
+    font=<span style="color: #bc8f8f;">"sans"</span>,
+    fontsize=12,
+    padding=3,
+)
+<span style="color: #b8860b;">extension_defaults</span> = widget_defaults.copy()
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb4485b7" class="outline-4">
+<h4 id="orgb4485b7">screens</h4>
+<div class="outline-text-4" id="text-orgb4485b7">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">screens</span> = [
+    Screen(
+        bottom=bar.Bar(
+            [
+                widget.CurrentLayout(),
+                widget.GroupBox(),
+                widget.Prompt(),
+                widget.WindowName(),
+                widget.Chord(
+                    chords_colors={
+                        <span style="color: #bc8f8f;">"launch"</span>: (<span style="color: #bc8f8f;">"#ff0000"</span>, <span style="color: #bc8f8f;">"#ffffff"</span>),
+                    },
+                    name_transform=<span style="color: #4169e1;">lambda</span> name: name.upper(),
+                ),
+                widget.TextBox(<span style="color: #bc8f8f;">"default config"</span>, name=<span style="color: #bc8f8f;">"default"</span>),
+                widget.TextBox(<span style="color: #bc8f8f;">"Press &amp;lt;M-r&amp;gt; to spawn"</span>, foreground=<span style="color: #bc8f8f;">"#d75f5f"</span>),
+                <span style="color: #b22222;"># </span><span style="color: #b22222;">NB Systray is incompatible with Wayland, consider using StatusNotifier instead</span>
+                <span style="color: #b22222;"># </span><span style="color: #b22222;">widget.StatusNotifier(),</span>
+                widget.Systray(),
+                widget.Clock(<span style="color: #00008b;">format</span>=<span style="color: #bc8f8f;">"%Y-%m-%d %a %I:%M %p"</span>),
+                widget.QuickExit(),
+            ],
+            24,
+            <span style="color: #b22222;"># </span><span style="color: #b22222;">border_width=[2, 0, 2, 0],  # Draw top and bottom borders</span>
+            <span style="color: #b22222;"># </span><span style="color: #b22222;">border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta</span>
+        ),
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">You can uncomment this variable if you see that on X11 floating resize/moving is laggy</span>
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">By default we handle these events delayed to already improve performance, however your system might still be struggling</span>
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second</span>
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">x11_drag_polling_rate = 60,</span>
+    ),
+]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org115cb0a" class="outline-4">
+<h4 id="org115cb0a">mouse</h4>
+<div class="outline-text-4" id="text-org115cb0a">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b22222;"># </span><span style="color: #b22222;">Drag floating layouts.</span>
+<span style="color: #b8860b;">mouse</span> = [
+    Drag([mod], <span style="color: #bc8f8f;">"Button1"</span>, lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    Drag([mod], <span style="color: #bc8f8f;">"Button3"</span>, lazy.window.set_size_floating(), start=lazy.window.get_size()),
+    Click([mod], <span style="color: #bc8f8f;">"Button2"</span>, lazy.window.bring_to_front()),
+]
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org2c37ed7" class="outline-3">
+<h3 id="org2c37ed7">My Configuration file</h3>
+<div class="outline-text-3" id="text-org2c37ed7">
+</div>
+<div id="outline-container-orgd5e05ba" class="outline-4">
+<h4 id="orgd5e05ba">imports</h4>
+<div class="outline-text-4" id="text-orgd5e05ba">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #4169e1;">from</span> libqtile <span style="color: #4169e1;">import</span> bar, layout, qtile, widget, hook
+<span style="color: #4169e1;">from</span> libqtile.config <span style="color: #4169e1;">import</span> Click, Drag, Group, Key, Match, Screen
+<span style="color: #4169e1;">from</span> libqtile.lazy <span style="color: #4169e1;">import</span> lazy
+<span style="color: #4169e1;">from</span> libqtile.utils <span style="color: #4169e1;">import</span> guess_terminal
+<span style="color: #4169e1;">from</span> os <span style="color: #4169e1;">import</span> getenv, system
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org19195e4" class="outline-4">
+<h4 id="org19195e4">variables</h4>
+<div class="outline-text-4" id="text-org19195e4">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">mod</span> = <span style="color: #bc8f8f;">"mod4"</span>
+
+<span style="color: #b8860b;">terminal</span> = getenv(<span style="color: #bc8f8f;">"TERMINAL"</span>) <span style="color: #4169e1;">or</span> guess_terminal()
+<span style="color: #b8860b;">filemanager</span> = getenv(<span style="color: #bc8f8f;">"FILE"</span>) <span style="color: #4169e1;">or</span> <span style="color: #bc8f8f;">"thunar"</span>
+<span style="color: #b8860b;">browser</span> = getenv(<span style="color: #bc8f8f;">"BROWSER"</span>) <span style="color: #4169e1;">or</span> <span style="color: #bc8f8f;">"firefox"</span>
+<span style="color: #b8860b;">mail_app</span> = getenv(<span style="color: #bc8f8f;">"MAIL_APP"</span>) <span style="color: #4169e1;">or</span> <span style="color: #bc8f8f;">"thunderbird"</span>
+<span style="color: #b8860b;">guiemacs</span> = <span style="color: #bc8f8f;">"emacsclient -c -a emacs"</span>
+<span style="color: #b8860b;">tuiemacs</span> = <span style="color: #bc8f8f;">"emacsclient -t -a emacs"</span>
+<span style="color: #b8860b;">visual</span>  = getenv(<span style="color: #bc8f8f;">"VISUAL"</span>) <span style="color: #4169e1;">or</span> guiemacs
+<span style="color: #b8860b;">ncmpcpp</span> = f<span style="color: #bc8f8f;">"""{terminal} --class ncmpcpp -e ncmpcpp"""</span> <span style="color: #4169e1;">if</span> terminal == <span style="color: #bc8f8f;">'alacritty'</span> <span style="color: #4169e1;">else</span> f<span style="color: #bc8f8f;">"""{terminal} -e ncmpcpp"""</span>
+<span style="color: #b8860b;">htop</span> = f<span style="color: #bc8f8f;">"""{terminal} --class htop -e htop"""</span> <span style="color: #4169e1;">if</span> terminal == <span style="color: #bc8f8f;">'alacritty'</span> <span style="color: #4169e1;">else</span> f<span style="color: #bc8f8f;">"""{terminal} -e htop"""</span>
+<span style="color: #b8860b;">nmtui</span> = f<span style="color: #bc8f8f;">"""{terminal} --class nmtui -e nmtui"""</span> <span style="color: #4169e1;">if</span> terminal == <span style="color: #bc8f8f;">'alacritty'</span> <span style="color: #4169e1;">else</span> f<span style="color: #bc8f8f;">"""{terminal} -e nmtui"""</span>
+<span style="color: #b8860b;">khal</span> = f<span style="color: #bc8f8f;">"""{terminal} --class khal -e khal interactive"""</span> <span style="color: #4169e1;">if</span> terminal == <span style="color: #bc8f8f;">'alacritty'</span> <span style="color: #4169e1;">else</span> f<span style="color: #bc8f8f;">"""{terminal} -e khal interactive"""</span>
+<span style="color: #b8860b;">vim</span> = f<span style="color: #bc8f8f;">"""{terminal} --class vim -e vim"""</span> <span style="color: #4169e1;">if</span> terminal == <span style="color: #bc8f8f;">'alacritty'</span> <span style="color: #4169e1;">else</span> f<span style="color: #bc8f8f;">"""{terminal} -e vim"""</span>
+<span style="color: #b8860b;">nw_emacs</span> = f<span style="color: #bc8f8f;">"""{terminal} --class nw-emacs -e {tuiemacs}"""</span> <span style="color: #4169e1;">if</span> terminal == <span style="color: #bc8f8f;">'alacritty'</span> <span style="color: #4169e1;">else</span> f<span style="color: #bc8f8f;">"""{terminal} -e {tuiemacs}"""</span>
+<span style="color: #b8860b;">dired</span> = f<span style="color: #bc8f8f;">"""{terminal} -e {tuiemacs} -e '(dired (getenv \"HOME\"))'"""</span>
+<span style="color: #b8860b;">tesseract_command</span> = <span style="color: #bc8f8f;">"maim -u -s -b 5 -l -c 0.3,0.4,0.6,0.4 -d 0.1 | xclip -selection clipboard -t image/png &amp;&amp; notify-send -i camera-photo 'Screenshot' 'Saved to clipboard'"</span>
+
+<span style="color: #b8860b;">logout</span> = <span style="color: #bc8f8f;">"rofi-logout qtile-logout"</span>
+<span style="color: #b8860b;">menu</span> = <span style="color: #bc8f8f;">"rofi -show drun -theme qtile-menu"</span>
+<span style="color: #b8860b;">clipboard</span> = <span style="color: #bc8f8f;">"""rofi -theme qtile-clipboard -modi "clipboard:greenclip print" -show clipboard"""</span>
+<span style="color: #b8860b;">emoji</span> = <span style="color: #bc8f8f;">"rofi -show emoji -theme qtile-emoji"</span>
+<span style="color: #b8860b;">backlight_up</span> = <span style="color: #bc8f8f;">"dunst-backlight +1%"</span>
+<span style="color: #b8860b;">backlight_down</span> = <span style="color: #bc8f8f;">"dunst-backlight 1%-"</span>
+<span style="color: #b8860b;">volume_up</span> = <span style="color: #bc8f8f;">"dunst-volume -i 1"</span>
+<span style="color: #b8860b;">volume_down</span> = <span style="color: #bc8f8f;">"dunst-volume -d 1"</span>
+<span style="color: #b8860b;">volume_mute</span> = <span style="color: #bc8f8f;">"dunst-volume -t"</span>
+<span style="color: #b8860b;">audio_play</span> = <span style="color: #bc8f8f;">"playerctl play-pause"</span>
+<span style="color: #b8860b;">audio_next</span> = <span style="color: #bc8f8f;">"playerctl next"</span>
+<span style="color: #b8860b;">audio_prev</span> = <span style="color: #bc8f8f;">"playerctl previous"</span>
+<span style="color: #b8860b;">printscreen</span> = <span style="color: #bc8f8f;">"flameshot gui"</span>
+<span style="color: #b8860b;">dgroups_key_binder</span> = <span style="color: #5f9ea0;">None</span>
+<span style="color: #b8860b;">dgroups_app_rules</span> = []  <span style="color: #b22222;"># </span><span style="color: #b22222;">type: list</span>
+<span style="color: #b8860b;">follow_mouse_focus</span> = <span style="color: #5f9ea0;">True</span>
+<span style="color: #b8860b;">bring_front_click</span> = <span style="color: #5f9ea0;">False</span>
+<span style="color: #b8860b;">floats_kept_above</span> = <span style="color: #5f9ea0;">True</span>
+<span style="color: #b8860b;">cursor_warp</span> = <span style="color: #5f9ea0;">False</span>
+<span style="color: #b8860b;">floating_layout</span> = layout.Floating(
+    float_rules=[
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">Run the utility of `xprop` to see the wm class and name of an X client.</span>
+        *layout.Floating.default_float_rules,
+        Match(wm_class=<span style="color: #bc8f8f;">"confirmreset"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">gitk</span>
+        Match(wm_class=<span style="color: #bc8f8f;">"makebranch"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">gitk</span>
+        Match(wm_class=<span style="color: #bc8f8f;">"maketag"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">gitk</span>
+        Match(wm_class=<span style="color: #bc8f8f;">"ssh-askpass"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">ssh-askpass</span>
+        Match(title=<span style="color: #bc8f8f;">"branchdialog"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">gitk</span>
+        Match(title=<span style="color: #bc8f8f;">"pinentry"</span>),  <span style="color: #b22222;"># </span><span style="color: #b22222;">GPG key password entry</span>
+    ]
+)
+<span style="color: #b8860b;">auto_fullscreen</span> = <span style="color: #5f9ea0;">True</span>
+<span style="color: #b8860b;">focus_on_window_activation</span> = <span style="color: #bc8f8f;">"smart"</span>
+<span style="color: #b8860b;">reconfigure_screens</span> = <span style="color: #5f9ea0;">True</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">If things like steam games want to auto-minimize themselves when losing</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">focus, should we respect this or not?</span>
+<span style="color: #b8860b;">auto_minimize</span> = <span style="color: #5f9ea0;">True</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">When using the Wayland backend, this can be used to configure input devices.</span>
+<span style="color: #b8860b;">wl_input_rules</span> = <span style="color: #5f9ea0;">None</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">string besides java UI toolkits; you can see several discussions on the</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">mailing lists, GitHub issues, and other WM documentation that suggest setting</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">this string if your java app doesn't work correctly. We may as well just lie</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">and say that we're a working one by default.</span>
+<span style="color: #b22222;">#</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">java that happens to be on java's whitelist.</span>
+<span style="color: #b8860b;">wmname</span> = <span style="color: #bc8f8f;">"LG3D"</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org2994142" class="outline-4">
+<h4 id="org2994142">keybindings</h4>
+<div class="outline-text-4" id="text-org2994142">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">keys</span> = []
+</pre>
+</div>
+</div>
+<ul class="org-ul">
+<li><a id="org6e197bf"></a>focus movements<br />
+<div class="outline-text-5" id="text-org6e197bf">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">focus_keys</span> = [
+    Key([mod], <span style="color: #bc8f8f;">"h"</span>, lazy.layout.left(), desc=<span style="color: #bc8f8f;">"Move focus to left"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"l"</span>, lazy.layout.right(), desc=<span style="color: #bc8f8f;">"Move focus to right"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"j"</span>, lazy.layout.down(), desc=<span style="color: #bc8f8f;">"Move focus down"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"k"</span>, lazy.layout.up(), desc=<span style="color: #bc8f8f;">"Move focus up"</span>),
+    <span style="color: #b22222;">#</span><span style="color: #b22222;">Key([mod], "space", lazy.layout.next(), desc="Move window focus to other window"),</span>
+    Key([mod], <span style="color: #bc8f8f;">"Left"</span>, lazy.layout.left(), desc=<span style="color: #bc8f8f;">"Move focus to left"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"Right"</span>, lazy.layout.right(), desc=<span style="color: #bc8f8f;">"Move focus to right"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"Down"</span>, lazy.layout.down(), desc=<span style="color: #bc8f8f;">"Move focus down"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"Up"</span>, lazy.layout.up(), desc=<span style="color: #bc8f8f;">"Move focus up"</span>),
+]
+
+keys.extend(focus_keys)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org19f4b29"></a>window movements<br />
+<div class="outline-text-5" id="text-org19f4b29">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">movement_keys</span> = [
+    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"h"</span>, lazy.layout.shuffle_left(), desc=<span style="color: #bc8f8f;">"Move window to the left"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"l"</span>, lazy.layout.shuffle_right(), desc=<span style="color: #bc8f8f;">"Move window to the right"</span>),
+    Key([mod,<span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"j"</span>, lazy.layout.shuffle_down(), desc=<span style="color: #bc8f8f;">"Move window down"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"k"</span>, lazy.layout.shuffle_up(), desc=<span style="color: #bc8f8f;">"Move window up"</span>),
+
+    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"Left"</span>, lazy.layout.shuffle_left(), desc=<span style="color: #bc8f8f;">"Move window to the left"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"Right"</span>, lazy.layout.shuffle_right(), desc=<span style="color: #bc8f8f;">"Move window to the right"</span>),
+    Key([mod,<span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"Down"</span>, lazy.layout.shuffle_down(), desc=<span style="color: #bc8f8f;">"Move window down"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"shift"</span>], <span style="color: #bc8f8f;">"Up"</span>, lazy.layout.shuffle_up(), desc=<span style="color: #bc8f8f;">"Move window up"</span>),
+]
+
+keys.extend(movement_keys)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org474dd9b"></a>resize<br />
+<div class="outline-text-5" id="text-org474dd9b">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">resize_keys</span> = [
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"h"</span>, lazy.layout.grow_left(), desc=<span style="color: #bc8f8f;">"Grow window to the left"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"l"</span>, lazy.layout.grow_right(), desc=<span style="color: #bc8f8f;">"Grow window to the right"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"j"</span>, lazy.layout.grow_down(), desc=<span style="color: #bc8f8f;">"Grow window down"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"k"</span>, lazy.layout.grow_up(), desc=<span style="color: #bc8f8f;">"Grow window up"</span>),
+
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"Left"</span>, lazy.layout.grow_left(), desc=<span style="color: #bc8f8f;">"Grow window to the left"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"Right"</span>, lazy.layout.grow_right(), desc=<span style="color: #bc8f8f;">"Grow window to the right"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"Down"</span>, lazy.layout.grow_down(), desc=<span style="color: #bc8f8f;">"Grow window down"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"Up"</span>, lazy.layout.grow_up(), desc=<span style="color: #bc8f8f;">"Grow window up"</span>),
+]
+
+keys.extend(resize_keys)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgbea4b31"></a>layout keys<br />
+<div class="outline-text-5" id="text-orgbea4b31">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">layout_keys</span> = [
+    Key([mod], <span style="color: #bc8f8f;">"n"</span>, lazy.layout.normalize(), desc=<span style="color: #bc8f8f;">"Reset all window sizes"</span>),
+    Key(
+        [mod, <span style="color: #bc8f8f;">"shift"</span>],
+        <span style="color: #bc8f8f;">"Return"</span>,
+        lazy.layout.toggle_split(),
+        desc=<span style="color: #bc8f8f;">"Toggle between split and unsplit sides of stack"</span>,
+    ),
+]
+
+keys.extend(layout_keys)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org9c1bd96"></a>multimedia_key<br />
+<div class="outline-text-5" id="text-org9c1bd96">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">multimedia_keys</span> = [
+    Key([], <span style="color: #bc8f8f;">"XF86MonBrightnessUp"</span>, lazy.spawn(backlight_up), desc=<span style="color: #bc8f8f;">"brightness up +1%"</span>),
+    Key([], <span style="color: #bc8f8f;">"XF86MonBrightnessDown"</span>, lazy.spawn(backlight_down), desc=<span style="color: #bc8f8f;">"brightness down +1%"</span>),
+    Key([], <span style="color: #bc8f8f;">"XF86AudioRaiseVolume"</span>, lazy.spawn(volume_up), desc=<span style="color: #bc8f8f;">"volume up +1%"</span>),
+    Key([], <span style="color: #bc8f8f;">"XF86AudioLowerVolume"</span>, lazy.spawn(volume_down), desc=<span style="color: #bc8f8f;">"volume down +1%"</span>),
+    Key([], <span style="color: #bc8f8f;">"XF86AudioMute"</span>, lazy.spawn(volume_mute), desc=<span style="color: #bc8f8f;">"volume mute"</span>),
+    Key([], <span style="color: #bc8f8f;">"Print"</span>, lazy.spawn(printscreen), desc=<span style="color: #bc8f8f;">"print screen"</span>),
+    Key([], <span style="color: #bc8f8f;">"XF86MyComputer"</span>, lazy.spawn(browser), desc=<span style="color: #bc8f8f;">"browser"</span>),
+    Key([], <span style="color: #bc8f8f;">"XF86Mail"</span>, lazy.spawn(mail_app), desc=<span style="color: #bc8f8f;">"mail app"</span>),
+    Key([], <span style="color: #bc8f8f;">"XF86AudioNext"</span>, lazy.spawn(audio_next), desc=<span style="color: #bc8f8f;">"next audio"</span>),
+    Key([], <span style="color: #bc8f8f;">"XF86AudioPrev"</span>, lazy.spawn(audio_prev), desc=<span style="color: #bc8f8f;">"previous audio"</span>),
+]
+
+keys.extend(multimedia_keys)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org1af19be"></a>Application Keys<br />
+<ul class="org-ul">
+<li><a id="orgfed5c16"></a>single modifier keys only<br />
+<div class="outline-text-6" id="text-orgfed5c16">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">mod_keys</span> = [
+    Key([mod], <span style="color: #bc8f8f;">"grave"</span>, lazy.spawn(<span style="color: #bc8f8f;">"dunstctl close"</span>), desc=<span style="color: #bc8f8f;">"dunstctl close"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"Return"</span>, lazy.spawn(terminal), desc=<span style="color: #bc8f8f;">"Launch terminal"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"e"</span>, lazy.spawn(filemanager), desc=<span style="color: #bc8f8f;">"Launch file manager"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"Tab"</span>, lazy.screen.toggle_group(), desc=<span style="color: #bc8f8f;">"Toggle between groups"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"q"</span>, lazy.spawn(logout), desc=<span style="color: #bc8f8f;">"logout"</span>),
+    Key([mod],<span style="color: #bc8f8f;">"c"</span>, lazy.spawn(clipboard), desc=<span style="color: #bc8f8f;">"clipboard"</span>),
+    Key([mod],<span style="color: #bc8f8f;">"d"</span>, lazy.spawn(menu), desc=<span style="color: #bc8f8f;">"menu"</span>),
+    Key([mod],<span style="color: #bc8f8f;">"Comma"</span>, lazy.spawn(emoji), desc=<span style="color: #bc8f8f;">"emoji"</span>),
+    Key([mod], <span style="color: #bc8f8f;">"F4"</span>, lazy.window.kill(), desc=<span style="color: #bc8f8f;">"Kill focused window"</span>),
+    Key([<span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"F4"</span>, lazy.window.kill(), desc=<span style="color: #bc8f8f;">"Kill focused window"</span>),
+    Key(
+        [mod],
+        <span style="color: #bc8f8f;">"f"</span>,
+        lazy.window.toggle_fullscreen(),
+        desc=<span style="color: #bc8f8f;">"Toggle fullscreen on the focused window"</span>,
+    ),
+    Key([mod], <span style="color: #bc8f8f;">"t"</span>, lazy.window.toggle_floating(), desc=<span style="color: #bc8f8f;">"Toggle floating on the focused window"</span>),
+]
+
+keys.extend(mod_keys)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org6d32f30"></a>Mod + Alt (Mod1) keys<br />
+<div class="outline-text-6" id="text-org6d32f30">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">mod_alt_keys</span> = [
+    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"Tab"</span>, lazy.next_layout(), desc=<span style="color: #bc8f8f;">"Toggle between layouts"</span> ),
+    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"b"</span>, lazy.spawn(<span style="color: #bc8f8f;">"rofi-rbw"</span>), desc=<span style="color: #bc8f8f;">"Web browser"</span> ),
+    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"f"</span>, lazy.spawn(browser), desc=<span style="color: #bc8f8f;">"Web browser"</span> ),
+    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"m"</span>, lazy.spawn(ncmpcpp), desc=<span style="color: #bc8f8f;">"Ncmpcpp"</span> ),
+    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"h"</span>, lazy.spawn(htop), desc=<span style="color: #bc8f8f;">"htop"</span> ),
+    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"n"</span>, lazy.spawn(visual), desc=<span style="color: #bc8f8f;">"visual editor"</span> ),
+    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"p"</span>, lazy.spawn(<span style="color: #bc8f8f;">"rofi-pass"</span>), desc=<span style="color: #bc8f8f;">"rofi frontend for pass"</span> ),
+    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"t"</span>, lazy.spawn(mail_app), desc=<span style="color: #bc8f8f;">"Mail application"</span> ),
+    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"w"</span>, lazy.spawn(nmtui), desc=<span style="color: #bc8f8f;">"NMtui"</span> ),
+    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"v"</span>, lazy.spawn(<span style="color: #bc8f8f;">"pavucontrol"</span>), desc=<span style="color: #bc8f8f;">"Launch pavucontrol"</span>),
+
+    Key([mod, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"grave"</span>, lazy.spawn(<span style="color: #bc8f8f;">"dunstctl history-pop"</span>), desc=<span style="color: #bc8f8f;">"dunst pop history"</span>),
+]
+
+keys.extend(mod_alt_keys)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgdbda820"></a>Mod + Shift keys<br />
+<div class="outline-text-6" id="text-orgdbda820">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">mod_shift_keys</span> = [
+    Key([mod, <span style="color: #bc8f8f;">"Shift"</span>], <span style="color: #bc8f8f;">"t"</span>, lazy.spawn(tesseract_command), desc=<span style="color: #bc8f8f;">"tesseract"</span> ),
+    Key([mod, <span style="color: #bc8f8f;">"Shift"</span>], <span style="color: #bc8f8f;">"grave"</span>, lazy.spawn(<span style="color: #bc8f8f;">"dunstctl context"</span>), desc=<span style="color: #bc8f8f;">"dunst context"</span> ),
+]
+
+keys.extend(mod_shift_keys)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgd96027a"></a>Mod + Shift + Alt keys<br />
+<div class="outline-text-6" id="text-orgd96027a">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">mod_shift_alt_keys</span> = [
+    Key([mod, <span style="color: #bc8f8f;">"Shift"</span>, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"e"</span>, lazy.spawn(dired), desc=<span style="color: #bc8f8f;">"Launch dired"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"Shift"</span>, <span style="color: #bc8f8f;">"mod1"</span>], <span style="color: #bc8f8f;">"n"</span>, lazy.spawn(nw_emacs), desc=<span style="color: #bc8f8f;">"Launch emacs in terminal"</span>),
+]
+
+keys.extend(mod_shift_alt_keys)
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org22c25fc"></a>mod + control keys<br />
+<div class="outline-text-6" id="text-org22c25fc">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">mod_control_keys</span> = [
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"grave"</span>, lazy.spawn(<span style="color: #bc8f8f;">"dunstctl action"</span>), desc=<span style="color: #bc8f8f;">"dunstctl action"</span>),
+    Key([mod, <span style="color: #bc8f8f;">"control"</span>], <span style="color: #bc8f8f;">"r"</span>, lazy.reload_config(), desc=<span style="color: #bc8f8f;">"Reload the config"</span>),
+]
+
+keys.extend(mod_control_keys)
+</pre>
+</div>
+
+<p>
+This is from the default
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">keys</span> = [
+    Key([mod], <span style="color: #bc8f8f;">"r"</span>, lazy.spawncmd(), desc=<span style="color: #bc8f8f;">"Spawn a command using a prompt widget"</span>),
+
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">fn keys</span>
+]
+</pre>
+</div>
+</div>
+</li>
+
+<li><a id="orgde05884"></a>wayland keys<br />
+<div class="outline-text-6" id="text-orgde05884">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b22222;"># </span><span style="color: #b22222;">Add key bindings to switch VTs in Wayland.</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">We can't check qtile.core.name in default config as it is loaded before qtile is started</span>
+<span style="color: #b22222;"># </span><span style="color: #b22222;">We therefore defer the check until the key binding is run by using .when(func=...)</span>
+<span style="color: #4169e1;">for</span> vt <span style="color: #4169e1;">in</span> <span style="color: #00008b;">range</span>(1, 8):
+    keys.append(
+        Key(
+            [<span style="color: #bc8f8f;">"control"</span>, <span style="color: #bc8f8f;">"mod1"</span>],
+            f<span style="color: #bc8f8f;">"f{vt}"</span>,
+            lazy.core.change_vt(vt).when(func=<span style="color: #4169e1;">lambda</span>: qtile.core.name == <span style="color: #bc8f8f;">"wayland"</span>),
+            desc=f<span style="color: #bc8f8f;">"Switch to VT{vt}"</span>,
+        )
+    )
+
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-orge97dabe" class="outline-4">
+<h4 id="orge97dabe">groups</h4>
+<div class="outline-text-4" id="text-orge97dabe">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">groups</span> = [Group(i) <span style="color: #4169e1;">for</span> i <span style="color: #4169e1;">in</span> <span style="color: #bc8f8f;">"123456789"</span>]
+
+<span style="color: #4169e1;">for</span> i <span style="color: #4169e1;">in</span> groups:
+    keys.extend(
+        [
+            <span style="color: #b22222;"># </span><span style="color: #b22222;">mod1 + group number = switch to group</span>
+            Key(
+                [mod],
+                i.name,
+                lazy.group[i.name].toscreen(),
+                desc=<span style="color: #bc8f8f;">"Switch to group {}"</span>.<span style="color: #00008b;">format</span>(i.name),
+            ),
+            <span style="color: #b22222;"># </span><span style="color: #b22222;">mod1 + shift + group number = switch to &amp; move focused window to group</span>
+            Key(
+                [mod, <span style="color: #bc8f8f;">"shift"</span>],
+                i.name,
+                lazy.window.togroup(i.name, switch_group=<span style="color: #5f9ea0;">True</span>),
+                desc=<span style="color: #bc8f8f;">"Switch to &amp; move focused window to group {}"</span>.<span style="color: #00008b;">format</span>(i.name),
+            ),
+            <span style="color: #b22222;"># </span><span style="color: #b22222;">Or, use below if you prefer not to switch to that group.</span>
+            <span style="color: #b22222;"># </span><span style="color: #b22222;"># mod1 + shift + group number = move focused window to group</span>
+            <span style="color: #b22222;"># </span><span style="color: #b22222;">Key([mod, "shift"], i.name, lazy.window.togroup(i.name),</span>
+            <span style="color: #b22222;">#     </span><span style="color: #b22222;">desc="move focused window to group {}".format(i.name)),</span>
+        ]
+    )
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgaa0ff78" class="outline-4">
+<h4 id="orgaa0ff78">layouts</h4>
+<div class="outline-text-4" id="text-orgaa0ff78">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">layouts</span> = [
+    layout.Columns(border_focus_stack=[<span style="color: #bc8f8f;">"#d75f5f"</span>, <span style="color: #bc8f8f;">"#8f3d3d"</span>], border_width=4),
+    layout.Max(),
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">Try more layouts by unleashing below layouts.</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Stack(num_stacks=2),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Bsp(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Matrix(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.MonadTall(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.MonadWide(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.RatioTile(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Tile(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.TreeTab(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.VerticalTile(),</span>
+    <span style="color: #b22222;"># </span><span style="color: #b22222;">layout.Zoomy(),</span>
+]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3a17688" class="outline-4">
+<h4 id="org3a17688">default widgets and extensions</h4>
+<div class="outline-text-4" id="text-org3a17688">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">widget_defaults</span> = <span style="color: #00008b;">dict</span>(
+    font=<span style="color: #bc8f8f;">"sans"</span>,
+    fontsize=12,
+    padding=3,
+)
+<span style="color: #b8860b;">extension_defaults</span> = widget_defaults.copy()
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbed3507" class="outline-4">
+<h4 id="orgbed3507">screens</h4>
+<div class="outline-text-4" id="text-orgbed3507">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">screens</span> = [
+    Screen(
+        bottom=bar.Bar(
+            [
+                widget.CurrentLayout(),
+                widget.GroupBox(),
+                widget.Prompt(),
+                widget.WindowName(),
+                widget.Chord(
+                    chords_colors={
+                        <span style="color: #bc8f8f;">"launch"</span>: (<span style="color: #bc8f8f;">"#ff0000"</span>, <span style="color: #bc8f8f;">"#ffffff"</span>),
+                    },
+                    name_transform=<span style="color: #4169e1;">lambda</span> name: name.upper(),
+                ),
+                widget.Backlight(
+                    backlight_name=<span style="color: #bc8f8f;">"intel_backlight"</span>,
+                    brightness_file=<span style="color: #bc8f8f;">"brightness"</span>,
+                    max_brightness_file=<span style="color: #bc8f8f;">"max_brightness"</span>,
+                    step=2,
+                    <span style="color: #00008b;">format</span>=<span style="color: #bc8f8f;">"&#986354;: {percent:2.0%}"</span>,
+                    change_command=<span style="color: #bc8f8f;">"brightnessctl set {0}%"</span>,
+                ),
+                widget.Battery(
+                    low_percentage=0.2,
+                    charge_char=<span style="color: #bc8f8f;">"&#983172;"</span>,
+                    discharge_char=<span style="color: #bc8f8f;">"&#62017;"</span>,
+                    empty_char=<span style="color: #bc8f8f;">"&#62020;"</span>,
+                    full_char=<span style="color: #bc8f8f;">"&#62016;"</span>,
+                    unknown_char=<span style="color: #bc8f8f;">"&#987340;"</span>,
+                    <span style="color: #00008b;">format</span>=<span style="color: #bc8f8f;">"{char} {percent:2.0%}"</span>,
+                    notify_below=15,
+                    hide_threshold=70,
+                ),
+                widget.TextBox(<span style="color: #bc8f8f;">"default config"</span>, name=<span style="color: #bc8f8f;">"default"</span>),
+                widget.TextBox(<span style="color: #bc8f8f;">"Press &amp;lt;M-r&amp;gt; to spawn"</span>, foreground=<span style="color: #bc8f8f;">"#d75f5f"</span>),
+                <span style="color: #b22222;"># </span><span style="color: #b22222;">NB Systray is incompatible with Wayland, consider using StatusNotifier instead</span>
+                <span style="color: #b22222;"># </span><span style="color: #b22222;">widget.StatusNotifier(),</span>
+                widget.Systray(),
+                widget.Clock(<span style="color: #00008b;">format</span>=<span style="color: #bc8f8f;">"%Y-%m-%d %a %I:%M %p"</span>),
+                widget.QuickExit(),
+            ],
+            24,
+            <span style="color: #b22222;"># </span><span style="color: #b22222;">border_width=[2, 0, 2, 0],  # Draw top and bottom borders</span>
+            <span style="color: #b22222;"># </span><span style="color: #b22222;">border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta</span>
+        ),
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">You can uncomment this variable if you see that on X11 floating resize/moving is laggy</span>
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">By default we handle these events delayed to already improve performance, however your system might still be struggling</span>
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">This variable is set to None (no cap) by default, but you can set it to 60 to indicate that you limit it to 60 events per second</span>
+        <span style="color: #b22222;"># </span><span style="color: #b22222;">x11_drag_polling_rate = 60,</span>
+    ),
+]
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd3f4e79" class="outline-4">
+<h4 id="orgd3f4e79">mouse</h4>
+<div class="outline-text-4" id="text-orgd3f4e79">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b22222;"># </span><span style="color: #b22222;">Drag floating layouts.</span>
+<span style="color: #b8860b;">mouse</span> = [
+    Drag([mod], <span style="color: #bc8f8f;">"Button1"</span>, lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    Drag([mod], <span style="color: #bc8f8f;">"Button3"</span>, lazy.window.set_size_floating(), start=lazy.window.get_size()),
+    Click([mod], <span style="color: #bc8f8f;">"Button2"</span>, lazy.window.bring_to_front()),
+]
+
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org40d1cbc" class="outline-4">
+<h4 id="org40d1cbc">startups</h4>
+<div class="outline-text-4" id="text-org40d1cbc">
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #b8860b;">STARTUP_COMMANDS</span> = [
+    <span style="color: #bc8f8f;">"xsetroot -cursor_name left_ptr"</span>,
+    <span style="color: #bc8f8f;">"xset r rate 300 30"</span>,
+    <span style="color: #bc8f8f;">"xrdb -merge ~/.Xresources"</span>,
+    <span style="color: #bc8f8f;">"picom -b &amp;"</span>,
+    <span style="color: #bc8f8f;">"nm-applet --indicator &amp;"</span>,
+    <span style="color: #bc8f8f;">"gnome-keyring-daemon --components=pkcs11,secrets,ssh -r -d &amp;"</span>,
+    <span style="color: #bc8f8f;">"/usr/lib/polkit-kde-authentication-agent-1 &amp;"</span>,
+    <span style="color: #bc8f8f;">"xsettingsd &amp;"</span>,
+    <span style="color: #bc8f8f;">"unclutter &amp;"</span>,
+    <span style="color: #bc8f8f;">"volumeicon &amp;"</span>,
+    <span style="color: #bc8f8f;">"greenclip daemon&gt;/dev/null &amp;"</span>,
+    <span style="color: #bc8f8f;">"dunst -conf ~/.config/dunst/dunstrc &amp;"</span>,
+    <span style="color: #bc8f8f;">"/usr/lib/geoclue-2.0/demos/agent &amp;"</span>,
+    <span style="color: #bc8f8f;">"~/.fehbg"</span>,
+    <span style="color: #bc8f8f;">"redshift &amp;"</span>,
+]
+
+<span style="color: #228b22;">@hook.subscribe.startup_once</span>
+<span style="color: #4169e1;">def</span> <span style="color: #0000ff;">autostart</span>():
+    <span style="color: #bc8f8f;">"""Stuffs to autostarts."""</span>
+    <span style="color: #4169e1;">for</span> cmd <span style="color: #4169e1;">in</span> STARTUP_COMMANDS:
+        system(cmd)
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org2087f73" class="outline-3">
+<h3 id="org2087f73">Utilities</h3>
+<div class="outline-text-3" id="text-org2087f73">
+</div>
+
+<div id="outline-container-org4879680" class="outline-4">
+<h4 id="org4879680">imports</h4>
+<div class="outline-text-4" id="text-org4879680">
+<div class="org-src-container">
+<pre class="src src-python">
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org18a0c16" class="outline-3">
+<h3 id="org18a0c16">External utilities</h3>
+<div class="outline-text-3" id="text-org18a0c16">
+</div>
+<div id="outline-container-orgfa2a1fa" class="outline-4">
+<h4 id="orgfa2a1fa">rofi</h4>
+<div class="outline-text-4" id="text-orgfa2a1fa">
+</div>
+<ul class="org-ul">
+<li><a id="org6c70366"></a>menu<br />
+<div class="outline-text-5" id="text-org6c70366">
+<div class="org-src-container">
+<pre class="src src-css"><span style="color: #b22222;">/* </span><span style="color: #b22222;">-*- mode: css -*- </span><span style="color: #b22222;">*/</span>
+<span style="color: #00008b;">@theme</span> <span style="color: #bc8f8f;">"nord"</span>
+
+<span style="color: #0000ff;">window </span>{
+    <span style="color: #4169e1;">location</span>: southwest;
+    <span style="color: #4169e1;">anchor</span>: center;
+    <span style="color: #4169e1;">width</span>: 40%;
+    <span style="color: #4169e1;">x-offset</span>: 375;
+    <span style="color: #4169e1;">y-offset</span>: -135;
+    <span style="color: #4169e1;">padding-right</span>: 25px;
+}
+
+<span style="color: #0000ff;">listview </span>{
+    <span style="color: #4169e1;">columns</span>: 2;
+    <span style="color: #4169e1;">lines</span>: 6;
+}
+
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">inputbar { </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/*     </span><span style="color: #b22222;">children: [textbox-prompt]; </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">} </span><span style="color: #b22222;">*/</span>
+
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">textbox-prompt { </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/*     </span><span style="color: #b22222;">str: "Apps"; </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/*     </span><span style="color: #b22222;">text-color: inherit; </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">} </span><span style="color: #b22222;">*/</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgb136ab0"></a>logout<br />
+<div class="outline-text-5" id="text-orgb136ab0">
+<div class="org-src-container">
+<pre class="src src-css"><span style="color: #b22222;">/* </span><span style="color: #b22222;">-*-css -*- </span><span style="color: #b22222;">*/</span>
+<span style="color: #00008b;">@theme</span> <span style="color: #bc8f8f;">"nord"</span>
+
+<span style="color: #0000ff;">window </span>{
+    <span style="color: #4169e1;">location</span>: northeast;
+    <span style="color: #4169e1;">anchor</span>:   center;
+    <span style="color: #4169e1;">transparency</span>: <span style="color: #bc8f8f;">"screenshot"</span>;
+    <span style="color: #4169e1;">width</span>: 10%;
+    <span style="color: #4169e1;">padding</span>: 10px;
+    <span style="color: #4169e1;">border</span>:  0px;
+    <span style="color: #4169e1;">border-radius</span>: 6px;
+    <span style="color: #4169e1;">spacing</span>: 0;
+    <span style="color: #4169e1;">children</span>: [mainbox];
+    <span style="color: #4169e1;">x-offset</span>: -100;
+    <span style="color: #4169e1;">y-offset</span>: 90;
+}
+
+<span style="color: #0000ff;">listview </span>{
+    <span style="color: #4169e1;">columns</span>: 1;
+    <span style="color: #4169e1;">lines</span>: 4;
+}
+</pre>
+</div>
+</div>
+</li>
+<li><a id="org4d296b1"></a>clipboard<br />
+<div class="outline-text-5" id="text-org4d296b1">
+<div class="org-src-container">
+<pre class="src src-css">
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">-*- mode: css -*- </span><span style="color: #b22222;">*/</span>
+<span style="color: #00008b;">@theme</span> <span style="color: #bc8f8f;">"nord"</span>
+
+<span style="color: #0000ff;">window </span>{
+    <span style="color: #4169e1;">location</span>: southeast;
+    <span style="color: #4169e1;">anchor</span>: center;
+    <span style="color: #4169e1;">width</span>: 40%;
+    <span style="color: #4169e1;">x-offset</span>: -390;
+    <span style="color: #4169e1;">y-offset</span>: -135;
+    <span style="color: #4169e1;">padding-right</span>: 25px;
+}
+
+<span style="color: #0000ff;">listview </span>{
+    <span style="color: #4169e1;">columns</span>: 2;
+    <span style="color: #4169e1;">lines</span>: 6;
+}
+
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">inputbar { </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/*     </span><span style="color: #b22222;">children: [textbox-prompt]; </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">} </span><span style="color: #b22222;">*/</span>
+
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">textbox-prompt { </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/*     </span><span style="color: #b22222;">str: "Apps"; </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/*     </span><span style="color: #b22222;">text-color: inherit; </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">} </span><span style="color: #b22222;">*/</span>
+</pre>
+</div>
+</div>
+</li>
+<li><a id="orgcb49ddb"></a>emoji<br />
+<div class="outline-text-5" id="text-orgcb49ddb">
+<div class="org-src-container">
+<pre class="src src-css"><span style="color: #b22222;">/* </span><span style="color: #b22222;">-*- mode: css -*- </span><span style="color: #b22222;">*/</span>
+<span style="color: #00008b;">@theme</span> <span style="color: #bc8f8f;">"nord"</span>
+
+<span style="color: #0000ff;">window </span>{
+    <span style="color: #4169e1;">location</span>: northwest;
+    <span style="color: #4169e1;">anchor</span>: center;
+    <span style="color: #4169e1;">width</span>: 40%;
+    <span style="color: #4169e1;">x-offset</span>: 390;
+    <span style="color: #4169e1;">y-offset</span>: 130;
+    <span style="color: #4169e1;">padding-right</span>: 25px;
+}
+
+<span style="color: #0000ff;">listview </span>{
+    <span style="color: #4169e1;">columns</span>: 1;
+    <span style="color: #4169e1;">lines</span>: 6;
+}
+
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">inputbar { </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/*     </span><span style="color: #b22222;">children: [textbox-prompt]; </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">} </span><span style="color: #b22222;">*/</span>
+
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">textbox-prompt { </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/*     </span><span style="color: #b22222;">str: "Apps"; </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/*     </span><span style="color: #b22222;">text-color: inherit; </span><span style="color: #b22222;">*/</span>
+<span style="color: #b22222;">/* </span><span style="color: #b22222;">} </span><span style="color: #b22222;">*/</span>
+</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="date">Date: 2024-03-26 Tue 00:00</p>
 <p class="author">Author: Kristian Alexander P</p>
-<p class="date">Created: 2024-03-26 Tue 02:45</p>
+<p class="date">Created: 2024-05-09 Thu 11:32</p>
 </div>
 </body>
 </html>
