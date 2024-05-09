@@ -531,6 +531,7 @@ mod_control_keys = [
 keys.extend(mod_control_keys)
 #+end_src
 
+This is from the default
 #+begin_src python :tangle no
 keys = [
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
